@@ -1,0 +1,67 @@
+name: Clean Artifacts, Cache, and Workspace
+
+on:
+  workflow_dispatch: # manual trigger
+
+permissions:
+  contents: read
+  actions: write     # permission untuk hapus cache & artifacts
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Clean workspace temporary files
+        run: |
+          echo "Cleaning temporary build files..."
+          find . -type f \( -name "*.o" -o -name "*.tmp" -o -name "*.log" -o -name "*.out" -o -name "*.obj" \) -exec rm -fv {} +
+
+      - name: List and delete artifacts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          echo "Listing artifacts..."
+          artifacts=$(curl -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/$REPO/actions/artifacts | jq -r '.artifacts[].id')
+          
+          if [ -z "$artifacts" ]; then
+            echo "No artifacts found to delete."
+          else
+            for id in $artifacts; do
+              echo "Deleting artifact $id"
+              curl -X DELETE -H "Authorization: Bearer $GITHUB_TOKEN" \
+                -H "Accept: application/vnd.github+json" \
+                https://api.github.com/repos/$REPO/actions/artifacts/$id
+            done
+          fi
+
+      - name: List and delete caches
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          echo "Listing caches..."
+          # Caching API list endpoint
+          caches=$(curl -H "Authorization: Bearer $GITHUB_TOKEN" \
+                     -H "Accept: application/vnd.github+json" \
+                     https://api.github.com/repos/$REPO/actions/caches | jq -r '.actions_caches[].id')
+          
+          if [ -z "$caches" ]; then
+            echo "No caches found to delete."
+          else
+            for cache_id in $caches; do
+              echo "Deleting cache $cache_id"
+              curl -X DELETE -H "Authorization: Bearer $GITHUB_TOKEN" \
+                -H "Accept: application/vnd.github+json" \
+                https://api.github.com/repos/$REPO/actions/caches/$cache_id
+            done
+          fi
+
+      - name: Summary
+        run: echo "Artifacts, caches, and temp files cleaned successfully."
