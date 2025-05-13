@@ -183,7 +183,6 @@ for pkg in luci-app-openclash luci-app-nikki luci-app-passwall; do
         chmod +x /etc/openclash/core/clash_meta
         chmod +x /etc/openclash/Country.mmdb
         chmod +x /etc/openclash/Geo* 2>/dev/null
-        chmod -R +x /usr/share/openclash/ui/zashboard
         echo "patching openclash overview"
         bash /usr/bin/patchoc.sh
         sed -i '/exit 0/i #/usr/bin/patchoc.sh' /etc/rc.local 2>/dev/null
