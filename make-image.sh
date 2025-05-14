@@ -96,11 +96,11 @@ handle_profile_packages() {
 # Handle_release
 handle_release_packages() {
     if [ "${BASE}" == "openwrt" ]; then
-        PACKAGES+=" wpad-openssl iw iwinfo wireless-regdb kmod-cfg80211 kmod-mac80211 luci-app-temp-status"
+        PACKAGES+=" cpusage wpad-openssl iw iwinfo wireless-regdb kmod-cfg80211 kmod-mac80211 luci-app-temp-status"
         EXCLUDED+=" -dnsmasq"
     elif [ "${BASE}" == "immortalwrt" ]; then
-        PACKAGES+=" wpad-openssl iw iwinfo wireless-regdb kmod-cfg80211 kmod-mac80211"
-        EXCLUDED+=" -dnsmasq -cpusage -automount -libustream-openssl -default-settings-chn -luci-i18n-base-zh-cn"
+        PACKAGES+=" cpusage wpad-openssl iw iwinfo wireless-regdb kmod-cfg80211 kmod-mac80211"
+        EXCLUDED+=" -dnsmasq -automount -libustream-openssl -default-settings-chn -luci-i18n-base-zh-cn"
         if [ "$ARCH_2" == "x86_64" ]; then
             EXCLUDED+=" -kmod-usb-net-rtl8152-vendor"
         fi
