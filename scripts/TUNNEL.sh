@@ -11,8 +11,10 @@ fi
 openclash_core=$(curl -s "https://api.github.com/repos/MetaCubeX/mihomo/releases/latest" | grep "browser_download_url" | grep -oE "https.*${meta_file}-v[0-9]+\.[0-9]+\.[0-9]+\.gz" | head -n 1)
 
 # Openclash IPK
-openclash_file_ipk="luci-app-openclash"
-openclash_file_ipk_down=$(curl -s "https://raw.githubusercontent.com/vernesong/OpenClash/package/dev" | grep "browser_download_url" | grep -oE "https.*${openclash_file_ipk}.*.ipk" | head -n 1)
+# openclash_file_ipk="luci-app-openclash"
+# openclash_file_ipk_down=$(curl -s "https://api.github.com/repos/vernesong/OpenClash/releases" | grep "browser_download_url" | grep -oE "https.*${openclash_file_ipk}.*.ipk" | head -n 1)
+openclash_file_ipk_url="https://raw.githubusercontent.com/vernesong/OpenClash/package/dev/luci-app-openclash_0.46.085_all.ipk"
+curl -L -o luci-app-openclash_0.46.085_all.ipk "$openclash_file_ipk_url"
 
 # passwall_core URL generation
 passwall_file_ipk="luci-24.10_luci-app-passwall"
@@ -27,7 +29,8 @@ nikki_file_ipk_down=$(curl -s "https://api.github.com/repos/rizkikotet-dev/OpenW
 # Function to download and setup OpenClash
 setup_openclash() {
     log "INFO" "Downloading OpenClash packages"
-    ariadl "${openclash_file_ipk_down}" "packages/openclash.ipk"
+    # ariadl "${openclash_file_ipk_down}" "packages/openclash.ipk"
+    ariadl "${openclash_file_ipk_url}" "packages/openclash.ipk"
     ariadl "${openclash_core}" "files/etc/openclash/core/clash_meta.gz"
     gzip -d "files/etc/openclash/core/clash_meta.gz" || error_msg "Error: Failed to extract OpenClash package."
 }
