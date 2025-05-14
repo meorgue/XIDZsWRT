@@ -12,7 +12,7 @@ openclash_core=$(curl -s "https://api.github.com/repos/MetaCubeX/mihomo/releases
 
 # Openclash IPK
 openclash_file_ipk="luci-app-openclash"
-openclash_file_ipk_down=$(curl -s "https://api.github.com/repos/vernesong/OpenClash/blob/package/dev" | grep "browser_download_url" | grep -oE "https.*${openclash_file_ipk}.*.ipk" | head -n 1)
+openclash_file_ipk_down=$(curl -s "https://raw.githubusercontent.com/vernesong/OpenClash/package/dev" | grep "browser_download_url" | grep -oE "https.*${openclash_file_ipk}.*.ipk" | head -n 1)
 
 # passwall_core URL generation
 passwall_file_ipk="luci-24.10_luci-app-passwall"
