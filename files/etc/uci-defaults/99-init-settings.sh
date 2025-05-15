@@ -21,16 +21,14 @@ echo "setup login root password"
 
 # setup hostname and timezone
 echo "setup hostname and timezone to asia/jakarta"
-uci batch <<EOF
-set system.@system[0].hostname='XIDZs-WRT'
-set system.@system[0].timezone='WIB-7'
-set system.@system[0].zonename='Asia/Jakarta'
-delete system.ntp.server
-add_list system.ntp.server="pool.ntp.org"
-add_list system.ntp.server="id.pool.ntp.org"
-add_list system.ntp.server="time.google.com"
-commit system
-EOF
+uci set system.@system[0].hostname='XIDZs-WRT'
+uci set system.@system[0].timezone='WIB-7'
+uci set system.@system[0].zonename='Asia/Jakarta'
+uci delete system.ntp.server
+uci add_list system.ntp.server="pool.ntp.org"
+uci add_list system.ntp.server="id.pool.ntp.org"
+uci add_list system.ntp.server="time.google.com"
+uci commit system
 
 # setup bahasa default
 echo "setup bahasa english default"
@@ -39,29 +37,25 @@ uci commit
 
 # configure wan and lan
 echo "configure wan and lan"
-uci batch <<EOF
-set network.WAN=interface
-set network.WAN.proto='dhcp'
-set network.WAN.device='usb0'
-set network.WAN2=interface
-set network.WAN2.proto='dhcp'
-set network.WAN2.device='eth1'
-set network.MODEM=interface
-set network.MODEM.proto='none'
-set network.MODEM.device='wwan0'
+uci set network.WAN=interface
+uci set network.WAN.proto='dhcp'
+uci set network.WAN.device='usb0'
+uci set network.WAN2=interface
+uci set network.WAN2.proto='dhcp'
+uci set network.WAN2.device='eth1'
+uci set network.MODEM=interface
+uci set network.MODEM.proto='none'
+uci set network.MODEM.device='wwan0'
 delete network.wan6
 commit network
-set firewall.@zone[1].network='WAN WAN2'
-commit firewall
-EOF
+uci set firewall.@zone[1].network='WAN WAN2'
+uci commit firewall
 
 # disable ipv6 lan
 echo "Disable IPv6 LAN..."
-uci -q batch <<EOF
-delete dhcp.lan.dhcpv6
-delete dhcp.lan.ra
-delete dhcp.lan.ndp
-EOF
+uci delete dhcp.lan.dhcpv6
+uci delete dhcp.lan.ra
+uci delete dhcp.lan.ndp
 uci commit dhcp
 
 # configure wiireless device
@@ -134,18 +128,6 @@ uci commit
 echo "symlink tinyfm"
 ln -s / /www/tinyfm/rootfs
 
-# setup device amlogic
-echo "setup device amlogic"
-if opkg list-installed | grep -q luci-app-amlogic; then
-  echo "luci-app-amlogic detected."
-  rm -f /etc/profile.d/30-sysinfo.sh
-  sed -i '/exit 0/i #sleep 5 && /usr/bin/k5hgled -r' /etc/rc.local
-  sed -i '/exit 0/i #sleep 5 && /usr/bin/k6hgled -r' /etc/rc.local
-else
-  echo "luci-app-amlogic no detected."
-  rm -f /usr/bin/k5hgled /usr/bin/k6hgled /usr/bin/k5hgledon /usr/bin/k6hgledon
-fi
-
 # setup misc settings and permission
 echo "setup misc settings and permission"
 sed -i -e 's/\[ -f \/etc\/banner \] && cat \/etc\/banner/#&/' \
@@ -174,79 +156,18 @@ echo "restart netdata and vnstat"
 sleep 2
 /etc/init.d/vnstat restart
 
-# setup tunnel installed
-for pkg in luci-app-openclash luci-app-nikki luci-app-passwall; do
-  if opkg list-installed | grep -qw "$pkg"; then
-    echo "$pkg detected"
-    case "$pkg" in
-      luci-app-openclash)
-        chmod +x /etc/openclash/core/clash_meta
-        chmod +x /etc/openclash/Country.mmdb
-        chmod +x /etc/openclash/Geo* 2>/dev/null
-        echo "patching openclash overview"
-        bash /usr/bin/patchoc.sh
-        sed -i '/exit 0/i #/usr/bin/patchoc.sh' /etc/rc.local 2>/dev/null
-        ln -s /etc/openclash/history/Quenx.db /etc/openclash/cache.db
-        ln -s /etc/openclash/core/clash_meta /etc/openclash/clash
-        rm -f /etc/config/openclash
-        rm -rf /etc/openclash/custom /etc/openclash/game_rules
-        rm -f /usr/share/openclash/openclash_version.sh
-        find /etc/openclash/rule_provider -type f ! -name "*.yaml" -exec rm -f {} \;
-        mv /etc/config/openclash1 /etc/config/openclash 2>/dev/null           
-        ;;
-      luci-app-nikki)
-        rm -rf /etc/nikki/run/providers
-        chmod +x /etc/nikki/run/Geo* 2>/dev/null
-        echo "symlink nikki to openclash"
-        ln -s /etc/openclash/proxy_provider /etc/nikki/run
-        ln -s /etc/openclash/rule_provider /etc/nikki/run
-        sed -i -e '64s/'Enable'/'Disable'/' /etc/config/alpha
-        sed -i -e '170s#.*#<!-- & -->#' /usr/lib/lua/luci/view/themes/argon/header.htm
-        ;;
-      luci-app-passwall)
-        sed -i -e '88s/'Enable'/'Disable'/' /etc/config/alpha
-        sed -i -e '171s#.*#<!-- & -->#' /usr/lib/lua/luci/view/themes/argon/header.htm
-        ;;
-    esac
-  else
-    echo "$pkg no detected"
-    case "$pkg" in
-      luci-app-openclash)
-        rm -f /etc/config/openclash1
-        rm -rf /etc/openclash /usr/share/openclash /usr/lib/lua/luci/view/openclash
-        sed -i -e '104s/'Enable'/'Disable'/' /etc/config/alpha
-        sed -i -e '167s#.*#<!-- & -->#' /usr/lib/lua/luci/view/themes/argon/header.htm
-        sed -i -e '187s#.*#<!-- & -->#' /usr/lib/lua/luci/view/themes/argon/header.htm
-        sed -i -e '189s#.*#<!-- & -->#' /usr/lib/lua/luci/view/themes/argon/header.htm
-        ;;
-      luci-app-nikki)
-        rm -rf /etc/config/nikki /etc/nikki
-        sed -i -e '120s/'Enable'/'Disable'/' /etc/config/alpha
-        sed -i -e '168s#.*#<!-- & -->#' /usr/lib/lua/luci/view/themes/argon/header.htm
-        ;;
-      luci-app-passwall)
-        rm -f /etc/config/passwall
-        sed -i -e '136s/'Enable'/'Disable'/' /etc/config/alpha
-        sed -i -e '169s#.*#<!-- & -->#' /usr/lib/lua/luci/view/themes/argon/header.htm
-        ;;
-    esac
-  fi
-done
-
 # remove storage.js
 echo "remove storage.js"
 rm -f /www/luci-static/resources/view/status/include/25_storage.js
 
 # Setup uhttpd and PHP8
 echo "setup uhttpd and php8"
-uci batch <<EOF
-set uhttpd.main.ubus_prefix='/ubus'
-set uhttpd.main.interpreter='.php=/usr/bin/php-cgi'
-set uhttpd.main.index_page='cgi-bin/luci'
-add_list uhttpd.main.index_page='index.html'
-add_list uhttpd.main.index_page='index.php'
-commit uhttpd
-EOF
+uci set uhttpd.main.ubus_prefix='/ubus'
+uci set uhttpd.main.interpreter='.php=/usr/bin/php-cgi'
+uci set uhttpd.main.index_page='cgi-bin/luci'
+uci add_list uhttpd.main.index_page='index.html'
+uci add_list uhttpd.main.index_page='index.php'
+uci commit uhttpd
 sed -i -E "s|memory_limit = [0-9]+M|memory_limit = 128M|g" /etc/php.ini
 sed -i -E "s|display_errors = On|display_errors = Off|g" /etc/php.ini
 sed -i -E "s|max_execution_time = [0-9]+|max_execution_time = 120|g" /etc/php.ini
