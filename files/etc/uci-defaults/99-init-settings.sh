@@ -249,8 +249,6 @@ commit uhttpd
 EOF
 sed -i -E "s|memory_limit = [0-9]+M|memory_limit = 128M|g" /etc/php.ini
 sed -i -E "s|display_errors = On|display_errors = Off|g" /etc/php.ini
-sed -i -E "s|max_execution_time = [0-9]+|max_execution_time = 120|g" /etc/php.ini
-sed -i -E "s|max_input_time = [0-9]+|max_input_time = 120|g" /etc/php.ini
 ln -sf /usr/bin/php-cli /usr/bin/php
 [ -d /usr/lib/php8 ] && [ ! -d /usr/lib/php ] && ln -sf /usr/lib/php8 /usr/lib/php
 /etc/init.d/uhttpd restart
