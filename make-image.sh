@@ -13,13 +13,14 @@ PROFILE=""
 PACKAGES=""
 
 # Base
-PACKAGES+=" liblua libc libubus-lua libiwinfo libiwinfo-data libiwinfo-lua libjson-script \
-liblucihttp liblucihttp-lua luci-lib-base luci-lib-ip luci-lib-ipkg luci-lib-jsonc luci-lib-nixio \
-busybox curl wget-ssl tar unzip uuidgen zoneinfo-core zoneinfo-asia screen jq \
-coreutils-base64 coreutils-stty coreutils-stat coreutils-sleep block-mount cgi-io dnsmasq-full \
-rpcd rpcd-mod-file rpcd-mod-iwinfo rpcd-mod-luci rpcd-mod-rrdns \
-uhttpd uhttpd-mod-ubus luci-base luci-compat luci luci-ssl \
-luci-mod-admin-full luci-mod-network luci-mod-status luci-mod-system luci-proto-ipv6 luci-proto-ppp"
+PACKAGES+=" busybox curl wget-ssl tar unzip uuidgen screen \
+jq adb htop lolcat python3-pip zram-swap libc \
+liblua libubus-lua libiwinfo-data libiwinfo libiwinfo-lua libjson-script liblucihttp \
+liblucihttp-lua luci-lib-base luci-lib-ip luci-lib-ipkg luci-lib-jsonc luci-lib-nixio zoneinfo-core \
+zoneinfo-asia coreutils-base64 coreutils-stty coreutils-stat coreutils-sleep block-mount cgi-io \
+dnsmasq-full rpcd rpcd-mod-file rpcd-mod-iwinfo rpcd-mod-luci rpcd-mod-rrdns uhttpd \
+uhttpd-mod-ubus luci-base luci-compat luci luci-ssl luci-mod-admin-full luci-mod-network \
+luci-mod-status luci-mod-system luci-proto-ipv6 luci-proto-ppp"
 
 # Modem and UsbLAN Driver
 PACKAGES+=" kmod-usb-ohci kmod-usb-uhci kmod-usb2 kmod-usb-ehci kmod-usb3 \
@@ -45,20 +46,30 @@ PASSWALL+="chinadns-ng resolveip dns2socks dns2tcp ipt2socks microsocks tcping x
 
 # Handle_Tunnel
 handle_tunnel_option() {
-    if [[ "$1" == "openclash" ]]; then
-        PACKAGES+=" $OPENCLASH"
-    elif [[ "$1" == "openclash-nikki" ]]; then
-        PACKAGES+=" $OPENCLASH $NIKKI" 
-    elif [[ "$1" == "openclash-nikki-passwall" ]]; then
-        PACKAGES+=" $OPENCLASH $NIKKI $PASSWALL"
-    fi
+    case "$1" in
+        "openclash")
+            PACKAGES+=" $OPENCLASH"
+            ;;
+        "nikki")
+            PACKAGES+=" $NIKKI"
+            ;;
+        "openclash-passwall")
+            PACKAGES+=" $OPENCLASH $PASSWALL"
+            ;;
+        "nikki-openclash")
+            PACKAGES+=" $NIKKI $OPENCLASH"
+            ;;
+        "no-tunnel")
+            PACKAGES+=""
+            ;;
+    esac
 }
 
 # Nas And Storage
 PACKAGES+=" luci-app-diskman luci-app-tinyfm"
 
 # Bandwidth And Network Monitoring
-PACKAGES+=" internet-detector luci-app-internet-detector vnstat2 vnstati2 luci-app-netmonitor"
+PACKAGES+=" internet-detector luci-app-internet-detector internet-detector-mod-modem-restart vnstat2 vnstati2 luci-app-netmonitor"
 
 # Remote Services
 PACKAGES+=" tailscale luci-app-tailscale"
@@ -73,7 +84,7 @@ PACKAGES+=" luci-theme-argon luci-theme-alpha"
 PACKAGES+=" php8 php8-fastcgi php8-fpm php8-mod-session php8-mod-ctype php8-mod-fileinfo php8-mod-zip php8-mod-iconv php8-mod-mbstring"
 
 # Custom Packages And More
-PACKAGES+=" adb htop lolcat python3-pip zram-swap luci-app-poweroffdevice luci-app-ramfree luci-app-ttyd luci-app-lite-watchdog luci-app-ipinfo luci-app-droidnet luci-app-mactodong"
+PACKAGES+=" luci-app-poweroff luci-app-ramfree luci-app-ttyd luci-app-lite-watchdog luci-app-ipinfo luci-app-droidnet luci-app-mactodong"
 
 # Handle_profile
 handle_profile_packages() {
@@ -83,14 +94,16 @@ handle_profile_packages() {
         PACKAGES+=" kmod-iwlwifi iw-full pciutils"
     fi
 
-    # Packages OPHUB | ULO
-    if [[ "${TYPE}" == "OPHUB" ]]; then
-        PACKAGES+=" btrfs-progs kmod-fs-btrfs luci-app-amlogic"
-        EXCLUDED+=" -procd-ujail"
-    elif [[ "${TYPE}" == "ULO" ]]; then
-        PACKAGES+=" luci-app-amlogic"
-        EXCLUDED+=" -procd-ujail"
-    fi
+    case "${TYPE}" in
+        "OPHUB")
+            PACKAGES+=" btrfs-progs kmod-fs-btrfs luci-app-amlogic"
+            EXCLUDED+=" -procd-ujail"
+            ;;
+        "ULO")
+            PACKAGES+=" luci-app-amlogic"
+            EXCLUDED+=" -procd-ujail"
+            ;;
+    esac
 }
 
 # Handle_release
