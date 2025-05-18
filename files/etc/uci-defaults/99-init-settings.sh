@@ -40,18 +40,18 @@ uci commit
 # configure wan and lan
 echo "configure wan and lan"
 uci batch <<EOF
+set network.TETHERING=interface
+set network.TETHERING.proto='dhcp'
+set network.TETHERING.device='usb0'
 set network.WAN=interface
 set network.WAN.proto='dhcp'
-set network.WAN.device='usb0'
-set network.WAN2=interface
-set network.WAN2.proto='dhcp'
-set network.WAN2.device='eth1'
+set network.WAN.device='eth1'
 set network.MODEM=interface
 set network.MODEM.proto='none'
 set network.MODEM.device='wwan0'
 delete network.wan6
 commit network
-set firewall.@zone[1].network='WAN WAN2'
+set firewall.@zone[1].network='TETHERING WAN'
 commit firewall
 EOF
 
@@ -82,7 +82,7 @@ if grep -q "Raspberry Pi 4\|Raspberry Pi 3" /proc/cpuinfo; then
   uci set wireless.@wifi-iface[1].ssid='XIDZs-WRT_5G'
   uci set wireless.@wifi-iface[1].encryption='none'
 else
-  uci set wireless.@wifi-device[0].channel='5'
+  uci set wireless.@wifi-device[0].channel='7'
   uci set wireless.@wifi-iface[0].ssid='XIDZs-WRT'
 fi
 uci commit wireless
@@ -249,6 +249,8 @@ commit uhttpd
 EOF
 sed -i -E "s|memory_limit = [0-9]+M|memory_limit = 128M|g" /etc/php.ini
 sed -i -E "s|display_errors = On|display_errors = Off|g" /etc/php.ini
+sed -i -E "s|max_execution_time = [0-9]+|max_execution_time = 120|g" /etc/php.ini
+sed -i -E "s|max_input_time = [0-9]+|max_input_time = 120|g" /etc/php.ini
 ln -sf /usr/bin/php-cli /usr/bin/php
 [ -d /usr/lib/php8 ] && [ ! -d /usr/lib/php ] && ln -sf /usr/lib/php8 /usr/lib/php
 /etc/init.d/uhttpd restart
