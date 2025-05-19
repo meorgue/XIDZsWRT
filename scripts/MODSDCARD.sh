@@ -185,78 +185,40 @@ process_builds() {
     
     return $exit_code
 }
-# Fungsi untuk menampilkan error
-error_msg() {
-    echo "ERROR: $1" >&2
-}
-
-# Fungsi untuk mendapatkan konfigurasi builds berdasarkan MATRIXTARGET
-get_builds() {
-    local target=$1
-    declare -A config
-
-    case "$target" in
-        "Amlogic s905x HG680P")
-            config=(
-                ["_s905x_k5.15"]="meson-gxl-s905x-p212.dtb:HG680P"
-                ["_s905x_k6.1"]="meson-gxl-s905x-p212.dtb:HG680P"
-                ["_s905x_k6.6"]="meson-gxl-s905x-p212.dtb:HG680P"
-            )
-            ;;
-        "Amlogic s905x B860H")
-            config=(
-                ["_s905x-b860h_k5.15"]="meson-gxl-s905x-b860h.dtb:B860H"
-                ["_s905x-b860h_k6.1"]="meson-gxl-s905x-b860h.dtb:B860H"
-                ["_s905x-b860h_k6.6"]="meson-gxl-s905x-b860h.dtb:B860H"
-            )
-            ;;
-        *)
-            error_msg "Target MATRIXTARGET '$target' tidak dikenali."
-            return 1
-            ;;
-    esac
-
-    # Cetak hasil konfigurasi dalam format key:value
-    for key in "${!config[@]}"; do
-        echo "$key:${config[$key]}"
-    done
-}
 
 main() {
-    local img_dir="$GITHUB_WORKSPACE/$WORKING_DIR/compiled_images"
     local exit_code=0
+    local img_dir="$GITHUB_WORKSPACE/$WORKING_DIR/compiled_images"
 
-    # Validasi direktori image
+    # konfigurasi builds berdasarkan MATRIXTARGET
+    local builds=()
+    if [[ "$MATRIXTARGET" == "Amlogic s905x HG680P" ]]; then
+        builds=(
+            "_s905x_k5.15:meson-gxl-s905x-p212.dtb:HG680P"
+            "_s905x_k6.1:meson-gxl-s905x-p212.dtb:HG680P"
+            "_s905x_k6.6:meson-gxl-s905x-p212.dtb:HG680P"
+        )
+    elif [[ "$MATRIXTARGET" == "Amlogic s905x B860H" ]]; then
+        builds=(
+            "_s905x-b860h_k5.15:meson-gxl-s905x-b860h.dtb:B860H"
+            "_s905x-b860h_k6.1:meson-gxl-s905x-b860h.dtb:B860H"
+            "_s905x-b860h_k6.6:meson-gxl-s905x-b860h.dtb:B860H"
+        )
+    fi
+    
+    # Validate environment
     if [[ ! -d "$img_dir" ]]; then
-        error_msg "Direktori image tidak ditemukan: $img_dir"
+        error_msg "Image directory not found: $img_dir"
         return 1
     fi
-
-    # Ambil daftar builds sesuai MATRIXTARGET
-    mapfile -t builds < <(get_builds "$MATRIXTARGET") || return 1
-
-    # Proses setiap konfigurasi build
-    for build in "${builds[@]}"; do
-        # Format: suffix:dtb:model
-        IFS=':' read -r suffix dtb model <<< "$build"
-        echo "Menjalankan build: suffix=$suffix, dtb=$dtb, model=$model"
-        
-        # Contoh panggilan fungsi proses (ganti dengan implementasimu)
-        if ! process_build "$img_dir" "$suffix" "$dtb" "$model"; then
-            error_msg "Build gagal untuk $model dengan kernel $suffix"
-            exit_code=1
-        fi
-    done
-
+    
+    # Process builds
+    if ! process_builds "$img_dir" "${builds[@]}"; then
+        exit_code=1
+    fi
+    
     return $exit_code
 }
 
-# Contoh dummy fungsi process_build agar script ini bisa jalan contoh
-process_build() {
-    local dir=$1 suffix=$2 dtb=$3 model=$4
-    # Simulasi sukses
-    echo "Memproses build di $dir dengan $suffix, $dtb, $model"
-    return 0
-}
-
+# Execute main function
 main
