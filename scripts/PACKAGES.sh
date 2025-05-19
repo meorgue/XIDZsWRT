@@ -56,10 +56,10 @@ packages_custom+=(
     
     "speedtestcli_|${REPOS[KIDDIN9]}"
     "luci-app-eqosplus_|${REPOS[KIDDIN9]}"
-    "luci-app-internet-detector_|${REPOS[GSPOTX2F]}"
-    "internet-detector_|${REPOS[GSPOTX2F]}"
-    "internet-detector-mod-modem-restart_|${REPOS[GSPOTX2F]}"
-    "luci-app-temp-status_|${REPOS[GSPOTX2F]}"
+    "luci-app-internet-detector_|${REPOS[KIDDIN9]}"
+    "internet-detector_|${REPOS[KIDDIN9]}"
+    "internet-detector-mod-modem-restart_|${REPOS[KIDDIN9]}"
+    "luci-app-temp-status_|${REPOS[KIDDIN9]}"
     
     "luci-app-tinyfm_|https://api.github.com/repos/bobbyunknown/luci-app-tinyfm/releases/latest"
     "luci-app-droidnet_|https://api.github.com/repos/animegasan/luci-app-droidmodem/releases/latest"
