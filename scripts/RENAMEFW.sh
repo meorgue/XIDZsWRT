@@ -104,7 +104,9 @@ rename_firmware() {
         # Amlogic Ophub
         "_s905x_|Amlogic_s905x_HG680P"
         "_s905x-b860h_|Amlogic_s905x_B860H"
-        "_s912-nexbox-a1_|Amlogic_s912_NEXBOX_A1"
+        "_s922x-ugoos-am6_|Amlogic_s922x_UGOOS-AM6-Plus"
+        "_s912-nexbox-a1_|Amlogic_s912_Nexbox-A1-A95X"
+        "_s912-nexbox-a2_|Amlogic_s912_Nexbox-A95X-A2"
         "_s905l2_|Amlogic_s905l2_MGV_M301A"
         "_s905x2-x96max-2g_|Amlogic_s905x2-x96Max2Gb-A95X-F2"
         "_s905x2_|Amlogic_s905x2_x96Max-4Gb-Tx5-Max"
@@ -115,7 +117,7 @@ rename_firmware() {
         "_s905x3-hk1_|Amlogic_s905x3-HK1BOX"
         "_s905x3_|Amlogic_s905x3_X96MAX+_100Mb"
         "_s905x3-x96max_|Amlogic_s905x3_X96MAX+_1Gb"
-        "_s905x4-advan_|Amlogic_s905x4_Ax810"
+        "_s905x4-advan_|Amlogic_s905x4_Advan"
         "_s905w_|Amlogic_s905w_TX3_Mini"
         "_s905w-x96-mini_|Amlogic_s905w-X96-Mini"
         
