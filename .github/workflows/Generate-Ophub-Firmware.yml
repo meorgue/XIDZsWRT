@@ -28,7 +28,9 @@ on:
           - all-device
           - Amlogic s905x HG680P
           - Amlogic s905x B860H
-          - Amlogic s912 Nexbox-A1
+          - Amlogic s922 UGOOS-AM6-Plus
+          - Amlogic s912 Nexbox-A1-A95X
+          - Amlogic s912 Nexbox-A95X-A2
           - Amlogic s905w X96-Mini
           - Amlogic s905w TX3-Mini
           - Amlogic s905l2 MGV-M301A
@@ -41,7 +43,9 @@ on:
           - Amlogic s905x3 HK1-Vontar-X3
           - Amlogic s905x3 X96Max+_100Mb
           - Amlogic s905x3 X96Max+_1Gb
-          - Amlogic s905x4 Akari
+          - Amlogic s905x4 Advan
+          - RK3318-BOX
+          - Firefly-RK3328
       tunnel:
         description: "Select Tunnel VPN"
         required: true
@@ -98,7 +102,9 @@ jobs:
             "target": [
               "Amlogic s905x HG680P",
               "Amlogic s905x B860H",
-              "Amlogic s912 Nexbox-A1",
+              "Amlogic s922 UGOOS-AM6-Plus",
+              "Amlogic s912 Nexbox-A1-A95X",
+              "Amlogic s912 Nexbox-A95X-A2",
               "Amlogic s905w X96-Mini",
               "Amlogic s905w TX3-Mini",
               "Amlogic s905l2 MGV-M301A",
@@ -111,7 +117,9 @@ jobs:
               "Amlogic s905x3 HK1-Vontar-X3",
               "Amlogic s905x3 X96Max+_100Mb",
               "Amlogic s905x3 X96Max+_1Gb",
-              "Amlogic s905x4 Akari"
+              "Amlogic s905x4 Advan",
+              "RK3318-BOX",
+              "Firefly-RK3328"
             ]
           }
           EOJ
@@ -199,15 +207,17 @@ jobs:
             - Openclash + Configs
             - Nikki + Configs
             - Passwall + Configs
-            - Zashboard Default Nikki | Openclash
             ## DEVICES SUPPORTED ##
             - Amlogic s905w
             - Amlogic s912
+            - Amlogic s922
             - Amlogic s905l2
             - Amlogic s905x
             - Amlogic s905x2
             - Amlogic s905x3
             - Amlogic s905x4
+            - Rockchip RK3318
+            - Rockchip RK3328
             ## KERNEL - INFORMATION ##
             - Kernel 5.15.x | WIFI ON
             - Kernel 6.1.x  | WIFI ON
@@ -307,19 +317,31 @@ jobs:
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
               ;;
-            "Amlogic s912 Nexbox-A1")
+            "Amlogic s922 UGOOS-AM6-Plus")
+              TARGET_BUILD="s922x-ugoos-am6h"
+              KERNEL="5.15.y_6.6.y"
+              echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
+              echo "KERNEL=$KERNEL" >> $GITHUB_ENV
+              ;;
+            "Amlogic s912 Nexbox-A1-A95X")
               TARGET_BUILD="s912-nexbox-a1"
               KERNEL="5.15.y_6.6.y"
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
-              ;;              
-              "Amlogic s905w X96-Mini")
+              ;;
+            "Amlogic s912 Nexbox-A95X-A2")
+              TARGET_BUILD="s912-nexbox-a2"
+              KERNEL="5.15.y_6.6.y"
+              echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
+              echo "KERNEL=$KERNEL" >> $GITHUB_ENV
+              ;;           
+            "Amlogic s905w X96-Mini")
               TARGET_BUILD="s905w-x96-mini"
               KERNEL="5.15.y_6.6.y"
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
               ;;
-              "Amlogic s905w TX3-Mini")
+            "Amlogic s905w TX3-Mini")
               TARGET_BUILD="s905w"
               KERNEL="5.15.y_6.6.y"
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
@@ -385,7 +407,7 @@ jobs:
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
               ;;
-            "Amlogic s905x4 Akari")
+            "Amlogic s905x4 Advan")
               TARGET_BUILD="s905x4-advan"
               KERNEL="6.6.y_6.12.y"
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
@@ -548,7 +570,7 @@ jobs:
           
       - name: Mod SDCard
         id: modsdcard
-        if: steps.repack.outputs.status == 'success'
+        if: steps.rep.outputs.status == 'success'
         run: |
           cd ${WORKING_DIR}
           chmod +x scripts/MODSDCARD.sh
@@ -557,7 +579,7 @@ jobs:
           
       - name: Before Upload
         id: beforeupload
-        if: steps.modsdcard.outputs.status == 'success'
+        if: steps.repack.outputs.status == 'success'
         run: |
           cd ${{ env.WORKING_DIR }}
           chmod +x scripts/RENAMEFW.sh
