@@ -152,7 +152,7 @@ sed -i -e 's/\[ -f \/etc\/banner \] && cat \/etc\/banner/#&/' \
        -e 's/\[ -n "$FAILSAFE" \] && cat \/etc\/banner.failsafe/& || \/usr\/bin\/idz/' /etc/profile
 chmod +x /usr/lib/ModemManager/connection.d/10-report-down
 chmod -R +x /sbin /usr/bin
-chmod +x /root/install2.sh && bash /root/install2.sh
+chmod +x /root/install2.sh && /root/install2.sh
 
 # move jquery.min.js
 echo "move jquery.min.js"
@@ -165,14 +165,11 @@ bash /etc/init.d/vnstat_backup enable
 
 # setup vnstati.sh
 echo "setup vnstati.sh"
-chmod +x /www/vnstati/vnstati.sh
-bash /www/vnstati/vnstati.sh
+chmod +x /www/vnstati/vnstati.sh && /www/vnstati/vnstati.sh
 
 # restart netdata and vnstat
 echo "restart netdata and vnstat"
-/etc/init.d/netdata restart
-sleep 2
-/etc/init.d/vnstat restart
+/etc/init.d/netdata restart && /etc/init.d/vnstat restart
 
 # setup tunnel installed
 for pkg in luci-app-openclash luci-app-nikki luci-app-passwall; do
