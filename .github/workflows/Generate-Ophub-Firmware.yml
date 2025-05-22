@@ -548,7 +548,7 @@ jobs:
           
       - name: Mod SDCard
         id: modsdcard
-        if: steps.rep.outputs.status == 'success'
+        if: steps.repa.outputs.status == 'success'
         run: |
           cd ${WORKING_DIR}
           chmod +x scripts/MODSDCARD.sh
@@ -563,17 +563,9 @@ jobs:
           chmod +x scripts/RENAMEFW.sh
           ./scripts/RENAMEFW.sh
           echo "status=success" >> "$GITHUB_OUTPUT"
-          
-      - name: Clean Sampah
-        id: cleancache
-        if: steps.beforeupload.outputs.status == 'success'
-        run: |
-          rm -rf tmp/ logs/
-          find . -type f \( -name '*.o' -o -name '*.ko' -o -name '*.cmd' -o -name '*.stamp' -o -name '*.d' -o -name '*.ipk' -o -name '*.log' \) -delete
-          echo "status=success" >> "$GITHUB_OUTPUT"
 
       - name: Create Release
-        if: steps.cleancache.outputs.status == 'success'
+        if: steps.beforeupload.outputs.status == 'success'
         uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
