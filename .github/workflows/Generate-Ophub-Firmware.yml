@@ -566,7 +566,7 @@ jobs:
           
       - name: Clean Sampah
         id: cleancache
-        if: steps.beforeupload.output.status == 'succes'
+        if: steps.beforeupload.output.status == 'success'
         run: |
           rm -rf tmp/ logs/
           find . -type f \( -name '*.o' -o -name '*.ko' -o -name '*.cmd' -o -name '*.stamp' -o -name '*.d' -o -name '*.ipk' -o -name '*.log' \)  -exec rm -f {} \;
