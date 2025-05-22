@@ -86,7 +86,6 @@ configure_network() {
     set network.MODEM.device='wwan0'
     delete network.wan6
     commit network
-
     set firewall.@zone[1].network='WAN WAN2'
     commit firewall
 EOF
@@ -124,10 +123,7 @@ setup_wireless() {
         uci set wireless.@wifi-iface[0].ssid='XIDZs-WRT'
     fi
     uci commit wireless
-
-    wifi reload
-    wifi up
-
+    wifi reload && wifi up
     if iw dev | grep -q Interface && grep -q "Raspberry Pi (3|4)" /proc/cpuinfo; then
         if ! grep -q "wifi up" /etc/rc.local; then
             sed -i '/exit 0/i # remove if you dont use wireless\nsleep 10 && wifi up' /etc/rc.local
@@ -303,14 +299,11 @@ setup_uhttpd_php8() {
     add_list uhttpd.main.index_page='index.php'
     commit uhttpd
 EOF
-
     sed -i -E \
       -e 's|memory_limit = [0-9]+M|memory_limit = 128M|g' \
       -e 's|display_errors = On|display_errors = Off|g' \
-
     ln -sf /usr/bin/php-cli /usr/bin/php
     [ -d /usr/lib/php8 ] && [ ! -d /usr/lib/php ] && ln -sf /usr/lib/php8 /usr/lib/php
-
     /etc/init.d/uhttpd restart
 }
 
@@ -347,5 +340,3 @@ main() {
 }
 
 main "$@"
-
-exit 0
