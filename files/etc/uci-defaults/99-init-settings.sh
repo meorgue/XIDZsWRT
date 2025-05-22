@@ -207,7 +207,7 @@ run_install2_script() {
 
 move_jquery_version() {
     log "Ganti jquery.min.js ke versi lama"
-    mv -f /usr/share/netdata/web/lib/jquery-3.6.0.min.js /usr/share/netdata/web/lib/jquery-2.2.4.min.js
+    mv /usr/share/netdata/web/lib/jquery-3.6.0.min.js /usr/share/netdata/web/lib/jquery-2.2.4.min.js
 }
 
 setup_vnstat_backup() {
