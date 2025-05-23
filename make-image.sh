@@ -13,7 +13,7 @@ PROFILE=""
 PACKAGES=""
 
 # Base
-PACKAGES+=" busybox curl wget-ssl tar unzip uuidgen screen \
+PACKAGES+=" busybox curl wget-ssl htop tar unzip uuidgen screen \
 jq adb libc liblua libubus-lua libiwinfo-data libiwinfo \
 libiwinfo-lua libjson-script liblucihttp liblucihttp-lua luci-lib-base luci-lib-ip luci-lib-ipkg \
 luci-lib-jsonc luci-lib-nixio zoneinfo-core zoneinfo-asia coreutils-base64 coreutils-stty coreutils-stat \
@@ -71,7 +71,7 @@ PACKAGES+=" speedtestcli luci-app-eqosplus"
 PACKAGES+=" luci-theme-argon luci-theme-alpha"
 
 # Custom Packages And More
-PACKAGES+=" htop lolcat python3-pip zram-swap luci-app-rakitanmanager luci-app-poweroffdevice luci-app-ramfree luci-app-ttyd luci-app-lite-watchdog luci-app-ipinfo luci-app-droidnet luci-app-mactodong"
+PACKAGES+=" lolcat python3-pip zram-swap luci-app-rakitanmanager luci-app-poweroffdevice luci-app-ramfree luci-app-ttyd luci-app-lite-watchdog luci-app-ipinfo luci-app-droidnet luci-app-mactodong"
 
 # Handle_profile
 handle_profile_packages() {
