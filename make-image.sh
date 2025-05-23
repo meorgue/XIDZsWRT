@@ -13,8 +13,8 @@ PROFILE=""
 PACKAGES=""
 
 # Base
-PACKAGES+=" busybox curl wget-ssl htop tar unzip uuidgen screen \
-jq adb libc liblua libubus-lua libiwinfo-data libiwinfo \
+PACKAGES+=" busybox curl wget-ssl tar unzip uuidgen screen \
+jq libc liblua libubus-lua libiwinfo-data libiwinfo \
 libiwinfo-lua libjson-script liblucihttp liblucihttp-lua luci-lib-base luci-lib-ip luci-lib-ipkg \
 luci-lib-jsonc luci-lib-nixio zoneinfo-core zoneinfo-asia coreutils-base64 coreutils-stty coreutils-stat \
 coreutils-sleep block-mount cgi-io dnsmasq-full rpcd rpcd-mod-file rpcd-mod-iwinfo \
@@ -52,9 +52,6 @@ handle_tunnel_option() {
     fi
 }
 
-# Php8
-PACKAGES+=" php8 php8-fastcgi php8-fpm php8-mod-session php8-mod-ctype php8-mod-fileinfo php8-mod-zip php8-mod-iconv php8-mod-mbstring"
-
 # Nas And Storage
 PACKAGES+=" luci-app-diskman luci-app-tinyfm"
 
@@ -70,8 +67,11 @@ PACKAGES+=" speedtestcli luci-app-eqosplus"
 # Tema
 PACKAGES+=" luci-theme-argon luci-theme-alpha"
 
+# Php8
+PACKAGES+=" php8 php8-fastcgi php8-fpm php8-mod-session php8-mod-ctype php8-mod-fileinfo php8-mod-zip php8-mod-iconv php8-mod-mbstring"
+
 # Custom Packages And More
-PACKAGES+=" lolcat python3-pip zram-swap luci-app-rakitanmanager luci-app-poweroffdevice luci-app-ramfree luci-app-ttyd luci-app-lite-watchdog luci-app-ipinfo luci-app-droidnet luci-app-mactodong"
+PACKAGES+=" adb htop lolcat python3-pip zram-swap luci-app-rakitanmanager luci-app-poweroffdevice luci-app-ramfree luci-app-ttyd luci-app-lite-watchdog luci-app-ipinfo luci-app-droidnet luci-app-mactodong"
 
 # Handle_profile
 handle_profile_packages() {
