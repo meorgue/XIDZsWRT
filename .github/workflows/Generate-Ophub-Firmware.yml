@@ -28,7 +28,7 @@ on:
           - all-device
           - Amlogic s905x HG680P
           - Amlogic s905x B860H
-          - Amlogic s922 UGOOS-AM6-Plus
+          - Amlogic s922x GT-King-Pro-H
           - Amlogic s912 Nexbox-A1-A95X
           - Amlogic s912 Nexbox-A95X-A2
           - Amlogic s905w X96-Mini
@@ -102,7 +102,7 @@ jobs:
             "target": [
               "Amlogic s905x HG680P",
               "Amlogic s905x B860H",
-              "Amlogic s922 UGOOS-AM6-Plus",
+              "Amlogic s922x GT-King-Pro-H",
               "Amlogic s912 Nexbox-A1-A95X",
               "Amlogic s912 Nexbox-A95X-A2",
               "Amlogic s905w X96-Mini",
@@ -194,10 +194,12 @@ jobs:
             - Amlogic Service
             - 3ginfo-Lite | Modeminfo
             - IP Information
+            - TTL
             - Tailscale
             - Eqosplus
             - Droidnet
             - GPIO LED HG680P | B860H
+            - Rakitan Manager
             - Internet Detector
             - Conns monitor
             - Support Modem Rakitan + Autorekonek
@@ -210,7 +212,7 @@ jobs:
             ## DEVICES SUPPORTED ##
             - Amlogic s905w
             - Amlogic s912
-            - Amlogic s922
+            - Amlogic s922x
             - Amlogic s905l2
             - Amlogic s905x
             - Amlogic s905x2
@@ -317,8 +319,8 @@ jobs:
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
               ;;
-            "Amlogic s922 UGOOS-AM6-Plus")
-              TARGET_BUILD="s922x-ugoos-am6"
+            "Amlogic s922x GT-King-Pro-H")
+              TARGET_BUILD="s922x-gtkingpro-h"
               KERNEL="5.15.y_6.6.y"
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
@@ -463,7 +465,7 @@ jobs:
               ;;
             "RK3318-BOX")
               TARGET_BUILD="rk3318-box"
-              KERNEL="6.6.y"
+              KERNEL="5.15.y_6.6.y"
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
               ;;
