@@ -173,10 +173,12 @@ jobs:
             - Amlogic Service
             - 3ginfo-Lite | Modeminfo
             - IP Information
+            - TTL
             - Tailscale
             - Eqosplus
             - Droidnet
             - GPIO LED HG680P | B860H
+            - Rakitan Manager
             - Internet Detector
             - Conns monitor
             - Support Modem Rakitan + Autorekonek
