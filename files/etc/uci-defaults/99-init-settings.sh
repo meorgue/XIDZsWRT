@@ -40,18 +40,18 @@ uci commit luci
 # configure wan and lan
 echo "configure wan and lan"
 uci batch <<EOF
-set network.WAN=interface
-set network.WAN.proto='dhcp'
-set network.WAN.device='usb0'
-set network.MODEM=interface
-set network.MODEM.proto='dhcp'
-set network.MODEM.device='eth1'
-set network.RAKITAN=interface
-set network.RAKITAN.proto='none'
-set network.RAKITAN.device='wwan0'
+set network.wan=interface
+set network.wan.proto='dhcp'
+set network.wan.device='usb0'
+set network.modem=interface
+set network.modem.proto='dhcp'
+set network.modem.device='eth1'
+set network.rakitan=interface
+set network.rakitan.proto='none'
+set network.rakitan.device='wwan0'
 delete network.wan6
 commit network
-set firewall.@zone[1].network='MODEM WAN'
+set firewall.@zone[1].network='modem wan'
 commit firewall
 EOF
 
