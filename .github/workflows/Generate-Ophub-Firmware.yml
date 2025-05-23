@@ -221,10 +221,10 @@ jobs:
             - Rockchip RK3318
             - Rockchip RK3328
             ## KERNEL - INFORMATION ##
-            - Kernel 5.15.x | WIFI ON
-            - Kernel 6.1.x  | WIFI ON
-            - Kernel 6.6.x  | WIFI ON
-            - Kernel 6.12.x | WIFI OFF
+            - Kernel 5.15.x | WIFI ON | HG-BH
+            - Kernel 6.1.x  | WIFI ON | HG-BH
+            - Kernel 6.6.x  | WIFI ON | HG-BH
+            - Kernel 6.12.x | WIFI OF | HG-BH
             ## VARIASI TUNNEL ##
             - OPENCLASH
             - OPENCLASH | NIKKI
