@@ -174,9 +174,11 @@ jobs:
             - Tema Argon
             - 3ginfo-Lite | Modeminfo
             - IP Information
+            - TTL
             - Tailscale
             - Eqosplus
             - Droidnet
+            - Rakitan Manager
             - Internet Detector
             - Conns monitor
             - Support Modem Rakitan + Autorekonek
