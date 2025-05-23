@@ -173,7 +173,7 @@ echo "restart netdata and vnstat"
 
 # TTL
 echo "run script ttl"
-chmod +x /usr/bin/indowrt.sh && /usr/bin/indowrt.sh
+chmod +x /root/indowrt.sh && /root/indowrt.sh
 
 # setup tunnel installed
 for pkg in luci-app-openclash luci-app-nikki luci-app-passwall; do
