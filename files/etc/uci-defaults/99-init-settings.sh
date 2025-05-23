@@ -51,7 +51,7 @@ set network.rakitan.proto='none'
 set network.rakitan.device='wwan0'
 delete network.wan6
 commit network
-set firewall.@zone[1].network='modem wan'
+set firewall.@zone[1].network='wan modem'
 commit firewall
 EOF
 
