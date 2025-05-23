@@ -82,7 +82,7 @@ if grep -q "Raspberry Pi 4\|Raspberry Pi 3" /proc/cpuinfo; then
   uci set wireless.@wifi-iface[1].ssid='XIDZs-WRT_5G'
   uci set wireless.@wifi-iface[1].encryption='none'
 else
-  uci set wireless.@wifi-device[0].channel='5'
+  uci set wireless.@wifi-device[0].channel='8'
   uci set wireless.@wifi-iface[0].ssid='XIDZs-WRT'
 fi
 uci commit wireless
@@ -170,6 +170,10 @@ chmod +x /www/vnstati/vnstati.sh && /www/vnstati/vnstati.sh
 # restart netdata and vnstat
 echo "restart netdata and vnstat"
 /etc/init.d/netdata restart && /etc/init.d/vnstat restart
+
+# TTL
+echo "run script ttl"
+chmod +x /usr/bin/indowrt.sh && /usr/bin/indowrt.sh
 
 # setup tunnel installed
 for pkg in luci-app-openclash luci-app-nikki luci-app-passwall; do
