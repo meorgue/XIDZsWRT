@@ -13,22 +13,21 @@ PROFILE=""
 PACKAGES=""
 
 # Base
-PACKAGES+=" busybox curl wget-ssl tar unzip uuidgen screen \
-jq libc liblua libubus-lua libiwinfo-data libiwinfo \
-libiwinfo-lua libjson-script liblucihttp liblucihttp-lua luci-lib-base luci-lib-ip luci-lib-ipkg \
-luci-lib-jsonc luci-lib-nixio zoneinfo-core zoneinfo-asia coreutils-base64 coreutils-stty coreutils-stat \
-coreutils-sleep block-mount cgi-io dnsmasq-full rpcd rpcd-mod-file rpcd-mod-iwinfo \
-rpcd-mod-luci rpcd-mod-rrdns uhttpd uhttpd-mod-ubus luci-base luci-compat luci \
-luci-ssl luci-mod-admin-full luci-mod-network luci-mod-status luci-mod-system luci-proto-ipv6 luci-proto-ppp"
+PACKAGES+=" busybox libc adb coreutils-base64 coreutils-stty coreutils-stat coreutils-sleep \
+zoneinfo-core zoneinfo-asia liblua libubus-lua libiwinfo libiwinfo-data libiwinfo-lua \
+libjson-script luci-lib-base luci-lib-ip luci-lib-ipkg luci-lib-jsonc luci-lib-nixio liblucihttp \
+liblucihttp-lua curl wget-ssl tar unzip uuidgen screen jq \
+block-mount cgi-io dnsmasq-full rpcd rpcd-mod-file rpcd-mod-iwinfo rpcd-mod-luci \
+rpcd-mod-rrdns uhttpd uhttpd-mod-ubus luci-base luci-compat luci luci-ssl \
+luci-mod-admin-full luci-mod-network luci-mod-status luci-mod-system luci-proto-ipv6 luci-proto-ppp"                                                                                   
 
 # Modem and UsbLAN Driver
-PACKAGES+=" kmod-usb-ohci kmod-usb-uhci kmod-usb2 kmod-usb-ehci kmod-usb3 kmod-mii \
-kmod-usb-net kmod-usb-net-cdc-ether kmod-usb-net-cdc-ncm kmod-usb-net-cdc-mbim kmod-usb-net-rndis kmod-usb-net-qmi-wwan kmod-usb-net-rtl8150 kmod-usb-net-rtl8152 \
-kmod-usb-net-asix kmod-usb-net-asix-ax88179 kmod-usb-net-huawei-cdc-ncm kmod-usb-net-sierrawireless \
-kmod-usb-wdm kmod-usb-acm kmod-usb-serial kmod-usb-serial-wwan kmod-usb-serial-option kmod-usb-serial-qualcomm kmod-usb-serial-sierrawireless \
-usb-modeswitch libqmi qmi-utils umbim libmbim mbim-utils modemmanager \
-luci-proto-qmi luci-proto-mbim luci-proto-modemmanager xmm-modem \
-kmod-usb-storage kmod-usb-storage-uas kmod-nls-utf8 kmod-macvlan usbutils"
+PACKAGES+=" kmod-usb-net-rtl8150 kmod-usb-net-rtl8152 kmod-usb-net-asix kmod-usb-net-asix-ax88179"
+PACKAGES+=" kmod-mii kmod-usb-net kmod-usb-wdm kmod-usb-acm kmod-usb-net-cdc-ncm kmod-usb-net-huawei-cdc-ncm kmod-usb-net-cdc-ether \
+usb-modeswitch kmod-usb-net-rndis kmod-usb-net-sierrawireless kmod-usb-serial-sierrawireless kmod-usb-net-qmi-wwan uqmi luci-proto-qmi \
+kmod-usb-net-cdc-mbim umbim kmod-usb-serial kmod-usb-serial-option kmod-usb-serial-qualcomm kmod-usb-serial-wwan libqmi qmi-utils \
+libmbim mbim-utils luci-proto-mbim modemmanager luci-proto-modemmanager xmm-modem kmod-usb-ohci kmod-usb-uhci \
+kmod-usb2 kmod-usb-ehci kmod-usb3 kmod-usb-storage kmod-usb-storage-uas kmod-nls-utf8 kmod-macvlan usbutils"
 
 # Modem Tools
 PACKAGES+=" modeminfo luci-app-modeminfo atinout modemband luci-app-modemband luci-app-mmconfig sms-tool luci-app-sms-tool-js luci-app-3ginfo-lite picocom minicom"
@@ -71,7 +70,7 @@ PACKAGES+=" luci-theme-argon luci-theme-alpha"
 PACKAGES+=" php8 php8-fastcgi php8-fpm php8-mod-session php8-mod-ctype php8-mod-fileinfo php8-mod-zip php8-mod-iconv php8-mod-mbstring"
 
 # Custom Packages And More
-PACKAGES+=" adb htop lolcat python3-pip zram-swap luci-app-rakitanmanager luci-app-poweroffdevice luci-app-ramfree luci-app-ttyd luci-app-lite-watchdog luci-app-ipinfo luci-app-droidnet luci-app-mactodong"
+PACKAGES+=" htop lolcat python3-pip zram-swap luci-app-rakitanmanager luci-app-poweroffdevice luci-app-ramfree luci-app-ttyd luci-app-lite-watchdog luci-app-ipinfo luci-app-droidnet luci-app-mactodong"
 
 # Handle_profile
 handle_profile_packages() {
