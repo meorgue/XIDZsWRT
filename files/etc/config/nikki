@@ -72,7 +72,7 @@ config mixin 'mixin'
 	option rule '0'
 	option rule_provider '0'
 	option mixin_file_content '0'
-	option outbound_interface 'WAN'
+	option outbound_interface 'wan'
 	option unify_delay '1'
 	option tcp_concurrent '1'
 	option disable_tcp_keep_alive '1'
@@ -118,7 +118,7 @@ config nameserver
 	option enabled '1'
 	option type 'default-nameserver'
 	list nameserver '1.1.1.1'
-	list nameserver '8.8.8.8'
+	list nameserver '1.0.0.1'
 
 config nameserver
 	option enabled '1'
@@ -190,4 +190,3 @@ config sniff
 config editor 'editor'
 
 config log 'log'
-
