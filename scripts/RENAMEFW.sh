@@ -104,6 +104,9 @@ rename_firmware() {
         # Amlogic Ophub
         "_s905x_|Amlogic_s905x_HG680P"
         "_s905x-b860h_|Amlogic_s905x_B860H"
+        "_s922x-gtking_|Amlogic_s922x_GtKing"
+        "_s922x_|Amlogic_s922x_GtKing-Pro"
+        "_s922x-gtkingpro-h_|Amlogic_s922x_GtKing-Pro-H"
         "_s922x-ugoos-am6_|Amlogic_s922x_UGOOS-AM6-Plus"
         "_s912-nexbox-a1_|Amlogic_s912_Nexbox-A1-A95X"
         "_s912-nexbox-a2_|Amlogic_s912_Nexbox-A95X-A2"
