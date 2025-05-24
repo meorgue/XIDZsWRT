@@ -150,8 +150,6 @@ rules:
 - RULE-SET,Tiktok,SERVER-UMUM
 - RULE-SET,Meta,SERVER-INDO
 - RULE-SET,Oisd_small,BLOCK-IKLAN
-- AND,((NOT,((RULE-SET,Umum))),(NETWORK,TCP)),SERVER-GAME
-- AND,((NOT,((RULE-SET,Umum))),(NETWORK,UDP)),SERVER-GAME
 - MATCH,SERVER-UMUM
 dns:
   proxy-server-nameserver:
