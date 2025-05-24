@@ -28,7 +28,7 @@ on:
           - all-device
           - Amlogic s905x HG680P
           - Amlogic s905x B860H
-          - Amlogic s922x GT-King-Pro-H
+          - Amlogic s922x GT-King-Pro
           - Amlogic s912 Nexbox-A1-A95X
           - Amlogic s912 Nexbox-A95X-A2
           - Amlogic s905w X96-Mini
@@ -102,7 +102,7 @@ jobs:
             "target": [
               "Amlogic s905x HG680P",
               "Amlogic s905x B860H",
-              "Amlogic s922x GT-King-Pro-H",
+              "Amlogic s922x GT-King-Pro",
               "Amlogic s912 Nexbox-A1-A95X",
               "Amlogic s912 Nexbox-A95X-A2",
               "Amlogic s905w X96-Mini",
@@ -319,8 +319,8 @@ jobs:
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
               ;;
-            "Amlogic s922x GT-King-Pro-H")
-              TARGET_BUILD="s922x-gtkingpro-h"
+            "Amlogic s922x GT-King-Pro")
+              TARGET_BUILD="s922x"
               KERNEL="5.15.y_6.6.y"
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
