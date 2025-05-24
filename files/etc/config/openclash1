@@ -78,7 +78,7 @@ config openclash 'config'
 	option restricted_mode '0'
 	option config_path '/etc/openclash/config/xidz-simple.yaml'
 	option proxy_dns_group 'Disable'
-	option keep_alive_interval '10'
+	option keep_alive_interval '7'
 	option find_process_mode '0'
 	option global_client_fingerprint '0'
 	option geodata_loader '0'
@@ -169,7 +169,7 @@ config dns_servers
 	option group 'fallback'
 	option type 'udp'
 	option ip '8.8.4.4'
-	option enabled '1'
+	option enabled '0'
 
 config dns_servers
 	option group 'fallback'
