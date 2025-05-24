@@ -21,16 +21,14 @@ echo "setup login root password"
 
 # setup hostname and timezone
 echo "setup hostname and timezone to asia/jakarta"
-uci batch <<EOF
-set system.@system[0].hostname='XIDZs-WRT'
-set system.@system[0].timezone='WIB-7'
-set system.@system[0].zonename='Asia/Jakarta'
-delete system.ntp.server
-add_list system.ntp.server="pool.ntp.org"
-add_list system.ntp.server="id.pool.ntp.org"
-add_list system.ntp.server="time.google.com"
-commit system
-EOF
+uci set system.@system[0].hostname='XIDZs-WRT'
+uci set system.@system[0].timezone='WIB-7'
+uci set system.@system[0].zonename='Asia/Jakarta'
+uci delete system.ntp.server
+uci add_list system.ntp.server="pool.ntp.org"
+uci add_list system.ntp.server="id.pool.ntp.org"
+uci add_list system.ntp.server="time.google.com"
+uci commit system
 
 # setup bahasa default
 echo "setup bahasa english default"
@@ -39,29 +37,25 @@ uci commit luci
 
 # configure wan and lan
 echo "configure wan and lan"
-uci batch <<EOF
-set network.wan=interface
-set network.wan.proto='dhcp'
-set network.wan.device='usb0'
-set network.modem=interface
-set network.modem.proto='dhcp'
-set network.modem.device='eth1'
-set network.rakitan=interface
-set network.rakitan.proto='none'
-set network.rakitan.device='wwan0'
-delete network.wan6
-commit network
-set firewall.@zone[1].network='wan modem'
-commit firewall
-EOF
+uci set network.wan=interface
+uci set network.wan.proto='dhcp'
+uci set network.wan.device='usb0'
+uci set network.modem=interface
+uci set network.modem.proto='dhcp'
+uci set network.modem.device='eth1'
+uci set network.rakitan=interface
+uci set network.rakitan.proto='none'
+uci set network.rakitan.device='wwan0'
+uci -q delete network.wan6
+uci commit network
+uci set firewall.@zone[1].network='wan modem'
+uci commit firewall
 
 # disable ipv6 lan
 echo "Disable IPv6 LAN..."
-uci -q batch <<EOF
-delete dhcp.lan.dhcpv6
-delete dhcp.lan.ra
-delete dhcp.lan.ndp
-EOF
+uci -q delete dhcp.lan.dhcpv6
+uci -q delete dhcp.lan.ra
+uci -q delete dhcp.lan.ndp
 uci commit dhcp
 
 # configure wiireless device
@@ -235,14 +229,12 @@ done
 
 # Setup uhttpd and PHP8
 echo "setup uhttpd and php8"
-uci batch <<EOF
-set uhttpd.main.ubus_prefix='/ubus'
-set uhttpd.main.interpreter='.php=/usr/bin/php-cgi'
-set uhttpd.main.index_page='cgi-bin/luci'
-add_list uhttpd.main.index_page='index.html'
-add_list uhttpd.main.index_page='index.php'
-commit uhttpd
-EOF
+uci set uhttpd.main.ubus_prefix='/ubus'
+uci set uhttpd.main.interpreter='.php=/usr/bin/php-cgi'
+uci set uhttpd.main.index_page='cgi-bin/luci'
+uci add_list uhttpd.main.index_page='index.html'
+uci add_list uhttpd.main.index_page='index.php'
+uci commit uhttpd
 sed -i -E "s|memory_limit = [0-9]+M|memory_limit = 128M|g" /etc/php.ini
 sed -i -E "s|display_errors = On|display_errors = Off|g" /etc/php.ini
 ln -sf /usr/bin/php-cli /usr/bin/php
