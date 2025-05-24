@@ -131,7 +131,7 @@ config nameserver
 	list nameserver '112.215.198.254'
 
 config nameserver
-	option enabled '1'
+	option enabled '0'
 	option type 'direct-nameserver'
 	list nameserver '112.215.203.246'
 	list nameserver '112.215.203.247'
