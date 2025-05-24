@@ -4,7 +4,7 @@ config status 'status'
 config config 'config'
 	option init '1'
 	option enabled '0'
-	option profile 'file:xidz-simple.yaml'
+	option profile 'file:xidz-lite.yaml'
 	option start_delay '4'
 	option scheduled_restart '0'
 	option cron_expression '0 3 * * *'
@@ -52,11 +52,11 @@ config mixin 'mixin'
 	option authentication '0'
 	option tun_device 'nikki'
 	option tun_stack 'mixed'
-	option tun_dns_hijack '0'
+	option tun_dns_hijack '1'
 	list tun_dns_hijacks 'tcp://any:53'
 	list tun_dns_hijacks 'udp://any:53'
 	option dns_listen '[::]:1053'
-	option dns_ipv6 '0'
+	option dns_ipv6 '1'
 	option dns_mode 'fake-ip'
 	option fake_ip_range '198.18.0.1/16'
 	option fake_ip_filter '0'
@@ -64,8 +64,8 @@ config mixin 'mixin'
 	list fake_ip_filters '+.local'
 	option fake_ip_cache '1'
 	option hosts '0'
-	option dns_nameserver '0'
-	option dns_nameserver_policy '0'
+	option dns_nameserver '1'
+	option dns_nameserver_policy '1'
 	option sniffer_force_domain_name '0'
 	option sniffer_ignore_domain_name '0'
 	option sniffer_sniff '1'
@@ -86,7 +86,7 @@ config mixin 'mixin'
 	option geoip_format 'dat'
 	option geodata_loader 'memconservative'
 	option geosite_url 'https://raw.githubusercontent.com/malikshi/v2ray-rules-dat/release/geosite.dat'
-	option geox_auto_update '1'
+	option geox_auto_update '0'
 	option geox_update_interval '24'
 
 config env 'env'
@@ -113,16 +113,16 @@ config hosts
 	option domain_name 'localhost'
 	list ip '127.0.0.1'
 	list ip '::1'
-	
-config nameserver
-	option enabled '1'
-	option type 'default-nameserver'
-	list nameserver '1.1.1.1'
-	list nameserver '1.0.0.1'
 
 config nameserver
 	option enabled '1'
-	option type 'proxy-server-nameserver'	
+	option type 'default-nameserver'
+	list nameserver '8.8.8.8'
+	list nameserver '8.8.4.4'
+
+config nameserver
+	option enabled '0'
+	option type 'proxy-server-nameserver'
 	list nameserver '112.215.203.246'
 	list nameserver '112.215.203.247'
 	list nameserver '112.215.203.248'
@@ -141,27 +141,27 @@ config nameserver
 	list nameserver '112.215.198.254'
 
 config nameserver
-	option enabled '1'
+	option enabled '0'
 	option type 'nameserver'
 	list nameserver '1.1.1.1'
 	list nameserver '1.0.0.1'
 	list nameserver 'https://dns.cloudflare.com/dns-query'
 
 config nameserver
-	option enabled '1'
+	option enabled '0'
 	option type 'fallback'
 	list nameserver '8.8.8.8'
 	list nameserver '8.8.4.4'
 	list nameserver 'https://dns.google.com/dns-query'
 
 config nameserver_policy
-	option enabled '1'
+	option enabled '0'
 	option matcher 'geosite:private,cn'
 	list nameserver 'https://1.1.1.1/dns-query'
 	list nameserver 'https://8.8.8.8/dns-query'
 
 config nameserver_policy
-	option enabled '1'
+	option enabled '0'
 	option matcher 'geosite:geolocation-!cn'
 	list nameserver 'https://1.1.1.1/dns-query'
 	list nameserver 'https://8.8.8.8/dns-query'
@@ -190,3 +190,4 @@ config sniff
 config editor 'editor'
 
 config log 'log'
+
