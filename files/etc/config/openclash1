@@ -97,7 +97,7 @@ config openclash 'config'
 	option lan_ac_mode '0'
 	list dnsmasq_server '8.8.8.8'
 	list dnsmasq_server '8.8.4.4'
-	option dnsmasq_cachesize '1000'
+	option dnsmasq_cachesize '1500'
 
 config dns_servers
 	option type 'udp'
