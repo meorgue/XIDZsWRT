@@ -153,5 +153,4 @@ buat_indowrt_lua
 buat_page_htm
 
 # Menampilkan pesan sukses
-echo "Semua file berhasil dibuat. Memulai ulang layanan uhttpd..."
-/etc/init.d/uhttpd restart
+echo "Semua file berhasil dibuat"
