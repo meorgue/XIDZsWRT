@@ -139,11 +139,10 @@ echo "setup device amlogic"
 if opkg list-installed | grep -q luci-app-amlogic; then
   echo "luci-app-amlogic detected."
   rm -f /etc/profile.d/30-sysinfo.sh
-  sed -i '/exit 0/i #sleep 5 && /usr/bin/k5hgled -r' /etc/rc.local
-  sed -i '/exit 0/i #sleep 5 && /usr/bin/k6hgled -r' /etc/rc.local
+  sed -i '/exit 0/i #sleep 4 && /usr/bin/ledgpio -r' /etc/rc.local
 else
   echo "luci-app-amlogic no detected."
-  rm -f /usr/bin/k5hgled /usr/bin/k6hgled /usr/bin/k5hgledon /usr/bin/k6hgledon
+  rm -f /usr/bin/ledgpio /usr/bin/gpioledon
 fi
 
 # setup misc settings and permission
