@@ -581,7 +581,7 @@ jobs:
           
       - name: Before Upload
         id: beforeupload
-        if: steps.modscard.outputs.status == 'success'
+        if: steps.modsdcard.outputs.status == 'success'
         run: |
           cd ${{ env.WORKING_DIR }}
           chmod +x scripts/RENAMEFW.sh
