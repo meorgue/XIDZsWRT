@@ -25,9 +25,9 @@ luci-mod-admin-full luci-mod-network luci-mod-status luci-mod-system luci-proto-
 PACKAGES+=" kmod-usb-net-rtl8150 kmod-usb-net-rtl8152 kmod-usb-net-asix kmod-usb-net-asix-ax88179"
 PACKAGES+=" kmod-mii kmod-usb-net kmod-usb-wdm kmod-usb-acm kmod-usb-net-cdc-ncm kmod-usb-net-huawei-cdc-ncm kmod-usb-net-cdc-ether \
 usb-modeswitch kmod-usb-net-rndis kmod-usb-net-sierrawireless kmod-usb-serial-sierrawireless kmod-usb-net-qmi-wwan uqmi luci-proto-qmi \
-kmod-usb-net-cdc-mbim umbim kmod-usb-serial kmod-usb-serial-option kmod-usb-serial-qualcomm kmod-usb-serial-wwan libqmi qmi-utils \
+kmod-usb-net-cdc-mbim umbim kmod-usb-serial-option kmod-usb-serial kmod-usb-serial-qualcomm kmod-usb-serial-wwan libqmi qmi-utils \
 libmbim mbim-utils luci-proto-mbim modemmanager luci-proto-modemmanager xmm-modem kmod-usb-ohci kmod-usb-uhci \
-kmod-usb2 kmod-usb-ehci kmod-nls-utf8 kmod-macvlan usbutils"
+kmod-usb2 kmod-usb-ehci kmod-usb3 kmod-nls-utf8 kmod-macvlan usbutils"
 
 # Modem Tools
 PACKAGES+=" modeminfo luci-app-modeminfo atinout modemband luci-app-modemband luci-app-mmconfig sms-tool luci-app-sms-tool-js luci-app-3ginfo-lite picocom minicom"
