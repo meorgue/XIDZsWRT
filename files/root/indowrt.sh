@@ -154,3 +154,6 @@ buat_page_htm
 
 # Menampilkan pesan sukses
 echo "Semua file berhasil dibuat"
+
+sleep 3 
+rm -- "$0"
