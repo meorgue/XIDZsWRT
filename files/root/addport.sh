@@ -2,7 +2,6 @@
 
 FILE="/etc/board.json"
 
-echo "add port board.json"
 sed -i '5i\
     },\
 	"network": {\
@@ -15,5 +14,4 @@ sed -i '5i\
       "protocol": "dhcp"\
     ' "$FILE"
 
-sleep 3 
 rm -- "$0"
