@@ -28,7 +28,6 @@ nikki_file_ipk_down=$(curl -s "https://api.github.com/repos/rizkikotet-dev/OpenW
 # Function to download and setup OpenClash
 setup_openclash() {
     log "INFO" "Downloading OpenClash packages"
-    # ariadl "${openclash_file_ipk_down}" "packages/openclash.ipk"
     ariadl "${openclash_file_ipk_down}" "packages/openclash.ipk"
     ariadl "${openclash_core}" "files/etc/openclash/core/clash_meta.gz"
     gzip -d "files/etc/openclash/core/clash_meta.gz" || error_msg "Error: Failed to extract OpenClash package."
