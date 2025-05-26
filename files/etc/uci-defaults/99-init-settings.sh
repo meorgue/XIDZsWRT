@@ -164,9 +164,13 @@ chmod +x /www/vnstati/vnstati.sh && /www/vnstati/vnstati.sh
 echo "restart netdata and vnstat"
 /etc/init.d/netdata restart && /etc/init.d/vnstat restart
 
-# TTL
+# add TTL
 echo "add and run script ttl"
 chmod +x /root/indowrt.sh && /root/indowrt.sh
+
+# add port board.json
+echo "add port board.json"
+chmod +x /root/addport.sh && /root/addport.sh
 
 # setup tunnel installed
 for pkg in luci-app-openclash luci-app-nikki luci-app-passwall; do
