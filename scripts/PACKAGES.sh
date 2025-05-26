@@ -68,7 +68,7 @@ packages_custom+=(
     "luci-theme-alpha_|https://api.github.com/repos/derisamedia/luci-theme-alpha/releases/latest"
     "luci-app-tailscale_|https://api.github.com/repos/asvow/luci-app-tailscale/releases/latest"
     "luci-app-rakitanmanager_|https://api.github.com/repos/rtaserver/RakitanManager/releases/latest"
-    "luci-app-ipinfo_|https://api.github.com/repos/animegasan/luci-app-ipinfo/releases/latest"
+    "luci-app-ipinfo_|https://api.github.com/repos/bobbyunknown/luci-app-ipinfo/releases/latest"
 )
 
 if [ "${TYPE}" == "OPHUB" ]; then
