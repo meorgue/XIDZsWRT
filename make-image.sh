@@ -27,7 +27,7 @@ PACKAGES+=" kmod-mii kmod-usb-net kmod-usb-wdm kmod-usb-acm kmod-usb-net-cdc-ncm
 usb-modeswitch kmod-usb-net-rndis kmod-usb-net-sierrawireless kmod-usb-serial-sierrawireless kmod-usb-net-qmi-wwan uqmi luci-proto-qmi \
 kmod-usb-net-cdc-mbim umbim kmod-usb-serial-option kmod-usb-serial kmod-usb-serial-qualcomm kmod-usb-serial-wwan libqmi qmi-utils \
 libmbim mbim-utils luci-proto-mbim modemmanager luci-proto-modemmanager xmm-modem kmod-usb-ohci kmod-usb-uhci \
-kmod-usb2 kmod-usb-ehci kmod-usb3 kmod-nls-utf8 kmod-macvlan usbutils"
+kmod-usb2 kmod-usb-ehci kmod-usb3 kmod-usb-storage kmod-usb-storage-uas usbutils kmod-nls-utf8 kmod-macvlan"
 
 # Modem Tools
 PACKAGES+=" modeminfo luci-app-modeminfo atinout modemband luci-app-modemband luci-app-mmconfig sms-tool luci-app-sms-tool-js luci-app-3ginfo-lite picocom minicom"
@@ -53,7 +53,7 @@ handle_tunnel_option() {
 }
 
 # Nas And Storage
-PACKAGES+=" kmod-usb-storage kmod-usb-storage-uas luci-app-diskman luci-app-tinyfm"
+PACKAGES+=" luci-app-diskman luci-app-tinyfm"
 
 # Bandwidth And Network Monitoring
 PACKAGES+=" internet-detector luci-app-internet-detector vnstat2 vnstati2 luci-app-netmonitor"
