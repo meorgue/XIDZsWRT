@@ -164,10 +164,6 @@ chmod +x /www/vnstati/vnstati.sh && /www/vnstati/vnstati.sh
 echo "restart netdata and vnstat"
 /etc/init.d/netdata restart && /etc/init.d/vnstat restart
 
-# Disable ipinfo
-uci set ipinfo.@ipinfo[0].enable='0'
-uci commit ipinfo
-
 # TTL
 echo "add and run script ttl"
 chmod +x /root/indowrt.sh && /root/indowrt.sh
