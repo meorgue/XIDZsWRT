@@ -23,13 +23,11 @@ luci-mod-admin-full luci-mod-network luci-mod-status luci-mod-system luci-proto-
 
 # Modem and UsbLAN Driver
 PACKAGES+=" kmod-usb-net-rtl8150 kmod-usb-net-rtl8152 kmod-usb-net-asix kmod-usb-net-asix-ax88179"
-PACKAGES+=" kmod-usb-ohci kmod-usb-uhci kmod-usb2 kmod-usb-ehci kmod-usb3 \
-kmod-mii kmod-usb-net kmod-usb-net-cdc-ether kmod-usb-net-cdc-ncm kmod-usb-net-huawei-cdc-ncm kmod-usb-net-rndis \
-kmod-usb-net-sierrawireless kmod-usb-net-qmi-wwan kmod-usb-net-cdc-mbim kmod-usb-serial kmod-usb-serial-option \
-kmod-usb-serial-sierrawireless kmod-usb-serial-qualcomm kmod-usb-serial-wwan kmod-usb-wdm kmod-usb-acm \
-libqmi qmi-utils libmbim mbim-utils uqmi umbim modemmanager \
-luci-proto-qmi luci-proto-mbim luci-proto-modemmanager usb-modeswitch xmm-modem \
-kmod-usb-storage kmod-usb-storage-uas kmod-macvlan kmod-nls-utf8 usbutils"
+PACKAGES+=" kmod-mii kmod-usb-net kmod-usb-wdm kmod-usb-acm kmod-usb-net-cdc-ncm kmod-usb-net-huawei-cdc-ncm kmod-usb-net-cdc-ether \
+usb-modeswitch kmod-usb-net-rndis kmod-usb-net-sierrawireless kmod-usb-net-qmi-wwan uqmi luci-proto-qmi kmod-usb-net-cdc-mbim umbim \
+kmod-usb-serial kmod-usb-serial-option kmod-usb-serial-sierrawireless kmod-usb-serial-qualcomm kmod-usb-serial-wwan libqmi qmi-utils \
+libmbim mbim-utils luci-proto-mbim modemmanager luci-proto-modemmanager xmm-modem kmod-usb-ohci kmod-usb-uhci \
+kmod-usb2 kmod-usb-ehci kmod-usb3 kmod-usb-storage kmod-usb-storage-uas kmod-nls-utf8 kmod-macvlan usbutils"
 
 # Modem Tools
 PACKAGES+=" modeminfo luci-app-modeminfo atinout modemband luci-app-modemband luci-app-mmconfig sms-tool luci-app-sms-tool-js luci-app-3ginfo-lite picocom minicom"
