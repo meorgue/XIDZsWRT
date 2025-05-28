@@ -2,7 +2,7 @@
 
 exec > /root/setup-xidzwrt.log 2>&1
 
-# dont remove !!!
+# dont remove script !!!
 echo "Installed Time: $(date '+%A, %d %B %Y %T')"
 sed -i "s#_('Firmware Version'),(L.isObject(boardinfo.release)?boardinfo.release.description+' / ':'')+(luciversion||''),#_('Firmware Version'),(L.isObject(boardinfo.release)?boardinfo.release.description+' By Xidz_x':''),#g" /www/luci-static/resources/view/status/include/10_system.js
 sed -i -E "s|icons/port_%s.png|icons/port_%s.gif|g" /www/luci-static/resources/view/status/include/29_ports.js
@@ -48,9 +48,9 @@ uci set network.rakitan.proto='none'
 uci set network.rakitan.device='wwan0'
 uci -q delete network.wan6
 uci commit network
-uci set firewall.@zone[0].input='ACCEPT'
-uci set firewall.@zone[0].output='ACCEPT'
-uci set firewall.@zone[0].forward='ACCEPT'
+uci set firewall.@defaults[0].input='ACCEPT'
+uci set firewall.@defaults[0].output='ACCEPT'
+uci set firewall.@defaults[0].forward='ACCEPT'
 uci set firewall.@zone[1].network='wan modem'
 uci commit firewall
 
@@ -66,9 +66,11 @@ echo "configure wireless device"
 uci set wireless.@wifi-device[0].disabled='0'
 uci set wireless.@wifi-iface[0].disabled='0'
 uci set wireless.@wifi-device[0].country='ID'
-uci set wireless.@wifi-device[0].htmode='HT20'
+uci set wireless.@wifi-device[0].htmode='HT40'
 uci set wireless.@wifi-iface[0].mode='ap'
 uci set wireless.@wifi-iface[0].encryption='none'
+uci set wireless.@wifi-device[0].channel='5'
+uci set wireless.@wifi-iface[0].ssid='XIDZs-WRT'
 if grep -q "Raspberry Pi 4\|Raspberry Pi 3" /proc/cpuinfo; then
   uci set wireless.@wifi-device[1].disabled='0'
   uci set wireless.@wifi-iface[1].disabled='0'
@@ -78,9 +80,6 @@ if grep -q "Raspberry Pi 4\|Raspberry Pi 3" /proc/cpuinfo; then
   uci set wireless.@wifi-iface[1].mode='ap'
   uci set wireless.@wifi-iface[1].ssid='XIDZs-WRT_5G'
   uci set wireless.@wifi-iface[1].encryption='none'
-else
-  uci set wireless.@wifi-device[0].channel='8'
-  uci set wireless.@wifi-iface[0].ssid='XIDZs-WRT'
 fi
 uci commit wireless
 wifi reload && wifi up
@@ -93,7 +92,7 @@ if iw dev | grep -q Interface; then
     if ! grep -q "wifi up" /etc/crontabs/root; then
       echo "# remove if you dont use wireless" >> /etc/crontabs/root
       echo "0 */12 * * * wifi down && sleep 5 && wifi up" >> /etc/crontabs/root
-      service cron restart
+      /etc/init.d/cron restart
     fi
   fi
 else
@@ -165,6 +164,7 @@ echo "restart netdata and vnstat"
 /etc/init.d/netdata restart && /etc/init.d/vnstat restart
 
 # run vnstati.sh
+echo "run vnstati.sh"
 /www/vnstati/vnstati.sh
 
 # setup Auto Vnstat Database Backup
