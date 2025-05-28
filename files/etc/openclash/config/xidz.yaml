@@ -153,12 +153,10 @@ rules:
 - MATCH,SERVER-UMUM
 dns:
   proxy-server-nameserver:
-    - 112.215.203.246 # DNS XL
-    - 112.215.203.247 # DNS XL
-    - 112.215.203.248 # DNS XL
-    - 112.215.203.254 # DNS XL
-    - 112.215.198.248 # DNS XL
-    - 112.215.198.254 # DNS XL
+    - system://auto
+    - dhcp://usb0
+    - dhcp://eth1
+    - dhcp://wwan0
   nameserver:
     - 1.1.1.1
     - 1.0.0.1
