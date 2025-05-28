@@ -194,17 +194,17 @@ main() {
     local builds=()
     if [[ "$MATRIXTARGET" == "Amlogic s905x HG680P" ]]; then
         builds=(
-            "_s905x_k5.15.182:meson-gxl-s905x-p212.dtb:HG680P"
+            "_s905x_k5.15.184:meson-gxl-s905x-p212.dtb:HG680P"
             "_s905x_k6.1.66:meson-gxl-s905x-p212.dtb:HG680P"
             "_s905x_k6.6.89:meson-gxl-s905x-p212.dtb:HG680P"
-            "_s905x_k6.12.28:meson-gxl-s905x-p212.dtb:HG680P"
+            "_s905x_k6.12.30:meson-gxl-s905x-p212.dtb:HG680P"
         )
     elif [[ "$MATRIXTARGET" == "Amlogic s905x B860H" ]]; then
         builds=(
-            "_s905x-b860h_k5.15.182:meson-gxl-s905x-b860h.dtb:B860H"
+            "_s905x-b860h_k5.15.184:meson-gxl-s905x-b860h.dtb:B860H"
             "_s905x-b860h_k6.1.66:meson-gxl-s905x-b860h.dtb:B860H"
             "_s905x-b860h_k6.6.89:meson-gxl-s905x-b860h.dtb:B860H"
-            "_s905x-b860h_k6.12.28:meson-gxl-s905x-b860h.dtb:B860H"
+            "_s905x-b860h_k6.12.30:meson-gxl-s905x-b860h.dtb:B860H"
         )
     fi
     
