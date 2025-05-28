@@ -321,49 +321,49 @@ jobs:
               ;;
             "Amlogic s922x GT-King-Pro")
               TARGET_BUILD="s922x"
-              KERNEL="5.15.y_6.6.y"
+              KERNEL="5.15.y_6.6.y_6.12.y"
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
               ;;
             "Amlogic s912 Nexbox-A1-A95X")
               TARGET_BUILD="s912-nexbox-a1"
-              KERNEL="5.15.y_6.6.y"
+              KERNEL="5.15.y_6.6.y_6.12.y"
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
               ;;
             "Amlogic s912 Nexbox-A95X-A2")
               TARGET_BUILD="s912-nexbox-a2"
-              KERNEL="5.15.y_6.6.y"
+              KERNEL="5.15.y_6.6.y_6.12.y"
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
               ;;           
             "Amlogic s905w X96-Mini")
               TARGET_BUILD="s905w-x96-mini"
-              KERNEL="5.15.y_6.6.y"
+              KERNEL="5.15.y_6.6.y_6.12.y"
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
               ;;
             "Amlogic s905w TX3-Mini")
               TARGET_BUILD="s905w"
-              KERNEL="5.15.y_6.6.y"
+              KERNEL="5.15.y_6.6.y_6.12.y"
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
               ;;              
             "Amlogic s905l2 MGV-M301A")
               TARGET_BUILD="s905l2"
-              KERNEL="5.15.y_6.6.y"
+              KERNEL="5.15.y_6.6.y_6.12.y"
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
               ;;
             "Amlogic s905x2 X96Max-v2Gb")
               TARGET_BUILD="s905x2-x96max-2g"
-              KERNEL="5.15.y_6.6.y"
+              KERNEL="5.15.y_6.6.y_6.12.y"
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
               ;;
             "Amlogic s905x2 X96Max-v4Gb")
               TARGET_BUILD="s905x2"
-              KERNEL="5.15.y_6.6.y"
+              KERNEL="5.15.y_6.6.y_6.12.y"
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
               ;;
@@ -375,37 +375,37 @@ jobs:
               ;;
             "Amlogic s905x2 HG680-FJ")
               TARGET_BUILD="s905x2-hg680-fj"
-              KERNEL="5.15.y_6.6.y"
+              KERNEL="5.15.y_6.6.y_6.12.y"
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
               ;;
             "Amlogic s905x3 X96Air_100mb")
               TARGET_BUILD="s905x3-x96air"
-              KERNEL="5.15.y_6.6.y"
+              KERNEL="5.15.y_6.6.y_6.12.y"
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
               ;;
             "Amlogic s905x3 X96Air_1Gb")
               TARGET_BUILD="s905x3-x96air-gb"
-              KERNEL="5.15.y_6.6.y"
+              KERNEL="5.15.y_6.6.y_6.12.y"
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
               ;;
             "Amlogic s905x3 HK1-Vontar-X3")
               TARGET_BUILD="s905x3-hk1"
-              KERNEL="5.15.y_6.6.y"
+              KERNEL="5.15.y_6.6.y_6.12.y"
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
               ;;
             "Amlogic s905x3 X96Max+_100Mb")
               TARGET_BUILD="s905x3"
-              KERNEL="5.15.y_6.6.y"
+              KERNEL="5.15.y_6.6.y_6.12.y"
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
               ;;
             "Amlogic s905x3 X96Max+_1Gb")
               TARGET_BUILD="s905x3-x96max"
-              KERNEL="5.15.y_6.6.y"
+              KERNEL="5.15.y_6.6.y_6.12.y"
               echo "TARGET_BUILD=$TARGET_BUILD" >> $GITHUB_ENV
               echo "KERNEL=$KERNEL" >> $GITHUB_ENV
               ;;
