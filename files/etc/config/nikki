@@ -138,6 +138,10 @@ config nameserver
 	list nameserver 'https://9.9.9.9/dns-query'
 	list nameserver 'https://149.112.112.112/dns-query'
 	list nameserver 'tls://dns.quad9.net:853'
+	list nameserver 'system://auto'
+	list nameserver 'dhcp://usb0'
+	list nameserver 'dhcp://eth1'
+	list nameserver 'dhcp://wwan0'
 	
 config nameserver
 	option enabled '1'
@@ -167,33 +171,15 @@ config nameserver
 	list nameserver 'https://dns.nextdns.io'
 	list nameserver 'tls://dns.nextdns.io:853'
 
-config nameserver
-	option enabled '1'
-	option type 'nameserver'
-	list nameserver 'https://doh.mullvad.net/dns-query'
-	list nameserver 'tls://doh.mullvad.net:853'
-	
-config nameserver
-	option enabled '1'
-	option type 'nameserver'
-	list nameserver 'https://doh.cleanbrowsing.org/doh/family-filter'
-	list nameserver 'tls://family-filter-dns.cleanbrowsing.org:853'
-
-config nameserver
-	option enabled '1'
-	option type 'nameserver'
-	list nameserver 'https://freedns.controld.com/p2'
-	list nameserver 'tls://p2.freedns.controld.com:853'
-
 config nameserver_policy
-	option enabled '1'
+	option enabled '0'
 	option matcher 'geosite:private,cn'
 	list nameserver 'https://1.1.1.1/dns-query'
 	list nameserver 'https://9.9.9.9/dns-query'
 	list nameserver 'tls://1.1.1.1:853'
 	
 config nameserver_policy
-	option enabled '1'
+	option enabled '0'
 	option matcher 'geosite:geolocation-!cn'
 	list nameserver 'https://1.1.1.1/dns-query'
 	list nameserver 'https://9.9.9.9/dns-query'
@@ -201,14 +187,14 @@ config nameserver_policy
 	list nameserver 'tls://1.1.1.1:853'
 
 config nameserver_policy
-	option enabled '1'
+	option enabled '0'
 	option matcher 'geosite:netflix,youtube,disney,hulu'
 	list nameserver 'https://1.1.1.1/dns-query'
 	list nameserver 'https://8.8.8.8/dns-query'
 	list nameserver 'tls://1.1.1.1:853'
 
 config nameserver_policy
-	option enabled '1'
+	option enabled '0'
 	option matcher 'geosite:facebook,twitter,instagram,telegram'
 	list nameserver 'https://9.9.9.9/dns-query'
 	list nameserver 'https://dns.adguard.com/dns-query'
