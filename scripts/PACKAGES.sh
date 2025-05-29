@@ -43,7 +43,7 @@ packages_custom+=(
     "xmm-modem_|${REPOS[KIDDIN9]}"
     
     "luci-app-lite-watchdog_|${REPOS[KIDDIN9]}"
-    "luci-app-speedtest-web_|${REPOS[KIDDIN9]}"
+    #"luci-app-speedtest-web_|${REPOS[KIDDIN9]}"
     "luci-app-fancontrol_|${REPOS[KIDDIN9]}"
     "luci-app-atcommands_|${REPOS[KIDDIN9]}"
     "tailscale_|${REPOS[KIDDIN9]}"
@@ -60,8 +60,9 @@ packages_custom+=(
     "luci-app-eqosplus_|${REPOS[KIDDIN9]}"
     "luci-app-internet-detector_|${REPOS[KIDDIN9]}"
     "internet-detector_|${REPOS[KIDDIN9]}"
-    "internet-detector-mod-modem-restart_|${REPOS[KIDDIN9]}"
+    #"internet-detector-mod-modem-restart_|${REPOS[KIDDIN9]}"
     "luci-app-temp-status_|${REPOS[KIDDIN9]}"
+    "luci-theme-edge_|${REPOS[KIDDIN9]}"
     
     "luci-app-tinyfm_|https://api.github.com/repos/bobbyunknown/luci-app-tinyfm/releases/latest"
     "luci-app-droidnet_|https://api.github.com/repos/animegasan/luci-app-droidmodem/releases/latest"
