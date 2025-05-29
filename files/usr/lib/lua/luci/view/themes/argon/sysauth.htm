@@ -7,6 +7,83 @@
     <title>𝚇𝙸𝙳𝚉-𝚆𝚁𝚃</title>
     <link rel="stylesheet" href="<%=media%>/xidz.css">
     <link rel="shortcut icon" href="<%=media%>/favicon.ico">
+    
+    <style>
+      /* Animasi untuk judul XIDZ-WRT */
+      .animated-title {
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+        background-size: 400% 400%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gradientShift 3s ease-in-out infinite, bounce 2s ease-in-out infinite;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+      }
+      
+      @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      
+      @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+        40% { transform: translateY(-10px); }
+        60% { transform: translateY(-5px); }
+      }
+      
+      /* Animasi untuk jam dan tanggal */
+      .animated-time {
+        background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+        background-size: 400% 400%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: timeGlow 2s ease-in-out infinite, pulse 1.5s ease-in-out infinite;
+        font-weight: bold;
+        text-shadow: 0 0 15px rgba(102, 126, 234, 0.5);
+      }
+      
+      @keyframes timeGlow {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+      }
+      
+      /* Animasi tambahan untuk container */
+      .login_form {
+        animation: fadeInUp 1s ease-out;
+      }
+      
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      /* Efek hover untuk input */
+      .input_text:focus {
+        animation: inputGlow 0.3s ease-in-out;
+        box-shadow: 0 0 15px rgba(78, 205, 196, 0.6);
+      }
+      
+      @keyframes inputGlow {
+        0% { box-shadow: 0 0 5px rgba(78, 205, 196, 0.3); }
+        100% { box-shadow: 0 0 15px rgba(78, 205, 196, 0.6); }
+      }
+    </style>
+    
     <form method="post" action="<%=pcdata(FULL_REQUEST_URI)%>">
   <%- if fuser then %>
     <div class="alert-message warning">
@@ -17,12 +94,43 @@
   <body>
     <div class="login_form_container">
       <div class="login_form">
-        <h2>⚝𝚇𝙸𝙳𝚉-𝚆𝚁𝚃⚝</h2>
-        <script type="text/javascript">window.setTimeout("waktu()",1000); function waktu(){var tanggal=new Date(); setTimeout("waktu()",1000); document.getElementById("jam").innerHTML=tanggal.getHours()+":"+tanggal.getMinutes()+":"+tanggal.getSeconds();}</script> <script language="JavaScript"> var tanggallengkap=new String(); var namahari=("Minggu Senin Selasa Rabu Kamis Jumat Sabtu"); namahari=namahari.split(" "); var namabulan=("Januari Februari Maret April Mei Juni Juli Agustus September Oktober November Desember"); namabulan=namabulan.split(" "); var tgl=new Date(); var hari=tgl.getDay(); var tanggal=tgl.getDate(); var bulan=tgl.getMonth(); var tahun=tgl.getFullYear(); tanggallengkap=namahari[hari] + ", " +tanggal + " " + namabulan[bulan] + " " + tahun; </script>       
-<center><script language='JavaScript'>document.write(tanggallengkap); </script> | <span id='jam' ></span></center>
+        <h2 class="animated-title">⚝𝚇𝙸𝙳𝚉-𝚆𝚁𝚃⚝</h2>
+        
+        <script type="text/javascript">
+          window.setTimeout("waktu()",1000); 
+          function waktu(){
+            var tanggal=new Date(); 
+            setTimeout("waktu()",1000); 
+            var jam = tanggal.getHours().toString().padStart(2, '0');
+            var menit = tanggal.getMinutes().toString().padStart(2, '0');
+            var detik = tanggal.getSeconds().toString().padStart(2, '0');
+            document.getElementById("jam").innerHTML = jam + ":" + menit + ":" + detik;
+          }
+        </script> 
+        
+        <script language="JavaScript"> 
+          var tanggallengkap=new String(); 
+          var namahari=("Minggu Senin Selasa Rabu Kamis Jumat Sabtu"); 
+          namahari=namahari.split(" "); 
+          var namabulan=("Januari Februari Maret April Mei Juni Juli Agustus September Oktober November Desember"); 
+          namabulan=namabulan.split(" "); 
+          var tgl=new Date(); 
+          var hari=tgl.getDay(); 
+          var tanggal=tgl.getDate(); 
+          var bulan=tgl.getMonth(); 
+          var tahun=tgl.getFullYear(); 
+          tanggallengkap=namahari[hari] + ", " +tanggal + " " + namabulan[bulan] + " " + tahun; 
+        </script>       
+
+        <center>
+          <div class="animated-time">
+            <script language='JavaScript'>document.write(tanggallengkap);</script> | <span id='jam'></span>
+          </div>
+        </center>
+        
         <div class="input_group">
           <i class="fa fa-user"></i>
-          <input class="input_text" type="text" name="luci_username" placeholder="Username Benar="off" value="<%=duser%>" />
+          <input class="input_text" type="text" name="luci_username" placeholder="Username" autocomplete="off" value="<%=duser%>" />
         </div>
         <div class="input_group">
           <i class="fa fa-unlock-alt"></i>
