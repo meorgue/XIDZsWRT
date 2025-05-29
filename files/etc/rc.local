@@ -1,5 +1,5 @@
 # Put your custom commands here that should be executed once
 #sh /usr/bin/jam_oc.sh vh2.onelink.me
 #sh /usr/bin/jam_nikki.sh vh2.onelink.me
-sleep 7 && /sbin/free.sh
+/sbin/free.sh
 exit 0
