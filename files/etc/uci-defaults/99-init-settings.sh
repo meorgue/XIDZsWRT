@@ -70,8 +70,8 @@ uci set luci.@core[0].lang='en'
 uci commit luci
 check_status "Setup bahasa"
 
-# setup wan and lan
-log "setup wan and lan"
+# Setup network interfaces
+log "setup network interface"
 uci batch << EOF
 set network.wan=interface
 set network.wan.proto='dhcp'
@@ -82,63 +82,156 @@ set network.modem.device='eth1'
 set network.rakitan=interface
 set network.rakitan.proto='none'
 set network.rakitan.device='wwan0'
-delete network.wan6
 commit network
-set firewall.@defaults[0].input='ACCEPT'
-set firewall.@defaults[0].output='ACCEPT'
-set firewall.@defaults[0].forward='REJECT'
-set firewall.@zone[1].network='wan modem'
-commit firewall
 EOF
+
+# Safe delete function
+safe_delete_and_commit() {
+    local config="$1"
+    local entries="$2"
+    local description="$3"
+    local changes=false
+    
+    for entry in $entries; do
+        if uci -q get "${config}.${entry}" >/dev/null 2>&1; then
+            uci delete "${config}.${entry}"
+            changes=true
+            log "${entry} deleted"
+        else
+            log "${entry} not found"
+        fi
+    done
+    
+    if [ "$changes" = true ]; then
+        uci commit "$config"
+        log "$description committed"
+    else
+        log "No changes for $description"
+    fi
+}
+
+# Hapus wan6 jika ada
+safe_delete_and_commit "network" "wan6" "network wan6"
+
+# Konfigurasi firewall defaults
+if uci -q get firewall.@defaults[0] >/dev/null 2>&1; then
+    uci set firewall.@defaults[0].input='ACCEPT'
+    uci set firewall.@defaults[0].output='ACCEPT'
+    uci set firewall.@defaults[0].forward='REJECT'
+    log "Firewall defaults configured"
+    firewall_changed=true
+else
+    log "Firewall defaults not found"
+    firewall_changed=false
+fi
+
+# Konfigurasi firewall zone
+if uci -q get firewall.@zone[1] >/dev/null 2>&1; then
+    uci set firewall.@zone[1].network='wan modem'
+    log "Firewall zone configured"
+    firewall_changed=true
+fi
+
+# Commit firewall jika ada perubahan
+if [ "$firewall_changed" = true ]; then
+    uci commit firewall
+fi
+
 check_status "Setup wan and lan"
 
-# Disable IPv6 secara menyeluruh
 log "Menonaktifkan IPv6..."
-uci batch << EOF
-delete dhcp.lan.dhcpv6
-delete dhcp.lan.ra
-delete dhcp.lan.ndp
-commit dhcp
-EOF
+safe_delete_and_commit "dhcp" "lan.dhcpv6 lan.ra lan.ndp" "IPv6 settings"
 check_status "Disable IPv6"
 
-# Konfigurasi wireles
+# Konfigurasi wireless dengan error handling
 log "Mengkonfigurasi wireless..."
-uci set wireless.@wifi-device[0].disabled='0'
-uci set wireless.@wifi-iface[0].disabled='0'
-uci set wireless.@wifi-device[0].country='ID'
-uci set wireless.@wifi-device[0].htmode='HT40'
-uci set wireless.@wifi-iface[0].mode='ap'
-uci set wireless.@wifi-iface[0].encryption='none'
-uci set wireless.@wifi-device[0].channel='5'
-uci set wireless.@wifi-iface[0].ssid='XIDZs-WRT'
-if grep -q "Raspberry Pi 4\|Raspberry Pi 3" /proc/cpuinfo; then
-  uci set wireless.@wifi-device[1].disabled='0'
-  uci set wireless.@wifi-iface[1].disabled='0'
-  uci set wireless.@wifi-device[1].country='ID'
-  uci set wireless.@wifi-device[1].channel='149'
-  uci set wireless.@wifi-device[1].htmode='VHT80'
-  uci set wireless.@wifi-iface[1].mode='ap'
-  uci set wireless.@wifi-iface[1].ssid='XIDZs-WRT_5G'
-  uci set wireless.@wifi-iface[1].encryption='none'
+
+# Cek apakah ada wireless device
+if [ ! -f "/etc/config/wireless" ] || [ ! -s "/etc/config/wireless" ]; then
+    log "File konfigurasi wireless tidak ditemukan, membuat konfigurasi baru..."
+    wifi detect > /etc/config/wireless 2>/dev/null
 fi
-uci commit wireless
-wifi reload && wifi up
-if iw dev | grep -q Interface; then
-  if grep -q "Raspberry Pi 4\|Raspberry Pi 3" /proc/cpuinfo; then
-    if ! grep -q "wifi up" /etc/rc.local; then
-      sed -i '/exit 0/i # remove if you dont use wireless' /etc/rc.local
-      sed -i '/exit 0/i sleep 10 && wifi up' /etc/rc.local
+
+# Konfigurasi wireless dengan pengecekan sederhana
+configure_wireless() {
+    WIFI_DEVICES=$(uci show wireless | grep "wifi-device" | grep "=wifi-device" | cut -d'.' -f2 | cut -d'=' -f1 | sort -u)
+    
+    if [ -z "$WIFI_DEVICES" ]; then
+        log "Tidak ada wireless device yang terdeteksi"
+        return 1
     fi
-    if ! grep -q "wifi up" /etc/crontabs/root; then
-      echo "# remove if you dont use wireless" >> /etc/crontabs/root
-      echo "0 */12 * * * wifi down && sleep 5 && wifi up" >> /etc/crontabs/root
-      /etc/init.d/cron restart
+    
+    # Konfigurasi setiap device yang ditemukan
+    for device in $WIFI_DEVICES; do
+        log "Mengkonfigurasi device: $device"
+        
+        # Set basic device config
+        uci set wireless.$device.disabled='0' 2>/dev/null
+        uci set wireless.$device.country='ID' 2>/dev/null
+        
+        # Set channel dan htmode berdasarkan band
+        BAND=$(uci get wireless.$device.band 2>/dev/null || uci get wireless.$device.hwmode 2>/dev/null || echo "2g")
+        
+        if echo "$BAND" | grep -q "5g\|a"; then
+            # 5GHz settings
+            uci set wireless.$device.channel='149' 2>/dev/null
+            uci set wireless.$device.htmode='VHT80' 2>/dev/null
+            SSID_SUFFIX="_5G"
+        else
+            # 2.4GHz settings
+            uci set wireless.$device.channel='5' 2>/dev/null
+            uci set wireless.$device.htmode='HT40' 2>/dev/null
+            SSID_SUFFIX=""
+        fi
+        
+        # Cari interface untuk device ini
+        INTERFACES=$(uci show wireless | grep "device='$device'" | cut -d'.' -f2 | cut -d'=' -f1)
+        
+        for iface in $INTERFACES; do
+            log "Mengkonfigurasi interface: $iface"
+            uci set wireless.$iface.disabled='0' 2>/dev/null
+            uci set wireless.$iface.mode='ap' 2>/dev/null
+            uci set wireless.$iface.ssid="XIDZs-WRT${SSID_SUFFIX}" 2>/dev/null
+            uci set wireless.$iface.encryption='none' 2>/dev/null
+            uci set wireless.$iface.network='lan' 2>/dev/null
+        done
+    done
+    
+    return 0
+}
+
+# Jalankan konfigurasi
+if configure_wireless; then
+    # Commit perubahan
+    uci commit wireless 2>/dev/null
+    check_status "Konfigurasi wireless"
+    
+    # Restart wireless
+    wifi reload 2>/dev/null
+    sleep 3
+    wifi up 2>/dev/null
+    
+    # Verifikasi
+    sleep 2
+    if iw dev 2>/dev/null | grep -q "Interface" || iwconfig 2>/dev/null | grep -q "IEEE"; then
+        log "Wireless berhasil aktif"
+        
+        # Auto restart hanya untuk Raspberry Pi
+        if grep -q "Raspberry Pi" /proc/cpuinfo 2>/dev/null; then
+            # Tambah ke rc.local jika belum ada
+            if [ -f "/etc/rc.local" ] && ! grep -q "wifi up" /etc/rc.local; then
+                sed -i '/exit 0/i sleep 10 && wifi up' /etc/rc.local 2>/dev/null
+            fi
+        fi
+        
+        check_status "Aktivasi wireless"
+    else
+        log "Wireless tidak aktif atau tidak ada device"
+        check_status "Aktivasi wireless"
     fi
-  fi
 else
-  echo "no wireless device detected."
-  check_status "konfigure wireless device"
+    log "Tidak ada wireless device yang dapat dikonfigurasi"
+    check_status "Konfigurasi wireless"
 fi
 
 # Optimisasi USB modem
@@ -250,13 +343,13 @@ check_status "Setup port board.json"
 log "Mengkonfigurasi aplikasi tunneling..."
 for pkg in luci-app-openclash luci-app-nikki luci-app-passwall; do
   if opkg list-installed | grep -qw "$pkg"; then
-    echo "$pkg detected"
+    log "$pkg detected"
     case "$pkg" in
       luci-app-openclash)
         chmod +x /etc/openclash/core/clash_meta
         chmod +x /etc/openclash/Country.mmdb
         chmod +x /etc/openclash/Geo* 2>/dev/null
-        echo "patching openclash overview"
+        log "patching openclash overview"
         bash /usr/bin/patchoc.sh
         sed -i '/exit 0/i #/usr/bin/patchoc.sh' /etc/rc.local 2>/dev/null
         ln -s /etc/openclash/history/Quenx.db /etc/openclash/cache.db
@@ -285,7 +378,7 @@ for pkg in luci-app-openclash luci-app-nikki luci-app-passwall; do
         ;;
     esac
   else
-    echo "$pkg no detected"
+    log "$pkg no detected"
     case "$pkg" in
       luci-app-openclash)
         rm -f /etc/config/openclash1
@@ -346,12 +439,9 @@ rm -rf /tmp/luci-* /tmp/*.tmp 2>/dev/null
 sync
 
 # Final status
-echo ""
 echo "=== RINGKASAN SETUP ==="
 echo "Hostname: $(uci get system.@system[0].hostname)"
-echo "Timezone: $(uci get system.@system[0].zonename)"  
-echo "Theme: $(basename $(uci get luci.main.mediaurlbase))"
-echo "Wireless: $([ "$WIRELESS_COUNT" -gt 0 ] && echo "Enabled ($WIRELESS_COUNT radio)" || echo "Disabled")"
+echo "Timezone: $(uci get system.@system[0].zonename)"
 echo "Firmware: $(grep 'DISTRIB_DESCRIPTION=' /etc/openwrt_release | awk -F"'" '{print $2}')"
 echo ""
 log "=== Setup XIDZs-WRT selesai! ==="
