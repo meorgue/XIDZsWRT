@@ -46,7 +46,7 @@ check_status() {
 # Header log
 log_status "INFO" "========================================="
 log_status "INFO" "XIDZs-WRT Setup Script Started"
-log_status "INFO" "Author -> By Xidz-x | Fidz"
+log_status "INFO" "Script Setup By Xidz-x | Fidz"
 log_status "INFO" "Installed Time: $(date '+%A, %d %B %Y %T')"
 log_status "INFO" "========================================="
 
@@ -156,7 +156,13 @@ else
 fi
 
 check_status "uci commit wireless" "Wireless configuration committed"
-check_status "wifi reload && wifi up" "WiFi reloaded and started"
+check_status "wifi down" "wifi down"
+sleep 2
+
+check_status "wifi reload" "wifi reload"
+sleep 2
+
+check_status "wifi restart" "wifi restart"
 
 # Check wireless interface
 if iw dev | grep -q Interface; then
@@ -312,11 +318,11 @@ for pkg in luci-app-openclash luci-app-nikki luci-app-passwall; do
                 check_status "ln -sf /etc/openclash/proxy_provider /etc/nikki/run" "Nikki proxy provider symlink created"
                 check_status "ln -sf /etc/openclash/rule_provider /etc/nikki/run" "Nikki rule provider symlink created"
                 check_status "sed -i '64s/Enable/Disable/' /etc/config/alpha" "Alpha config updated for Nikki"
-                check_status "sed -i '170s#.*#<!-- & -->#' /usr/lib/lua/luci/view/themes/argon/header.htm" "Argon header updated for Nikki"
+                check_status "sed -i '171s#.*#<!-- & -->#' /usr/lib/lua/luci/view/themes/argon/header.htm" "Argon header updated for Nikki"
                 ;;
             luci-app-passwall)
                 check_status "sed -i '88s/Enable/Disable/' /etc/config/alpha" "Alpha config updated for Passwall"
-                check_status "sed -i '171s#.*#<!-- & -->#' /usr/lib/lua/luci/view/themes/argon/header.htm" "Argon header updated for Passwall"
+                check_status "sed -i '172s#.*#<!-- & -->#' /usr/lib/lua/luci/view/themes/argon/header.htm" "Argon header updated for Passwall"
                 ;;
         esac
     else
