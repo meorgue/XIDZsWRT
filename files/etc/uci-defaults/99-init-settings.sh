@@ -45,7 +45,8 @@ check_status() {
 
 # Header log
 log_status "INFO" "========================================="
-log_status "INFO" "XIDZWRT Setup Script Started"
+log_status "INFO" "XIDZs-WRT Setup Script Started"
+log_status "INFO" "Author -> By Xidz-x | Fidz"
 log_status "INFO" "Installed Time: $(date '+%A, %d %B %Y %T')"
 log_status "INFO" "========================================="
 
@@ -111,7 +112,7 @@ check_status "uci set network.modem.device='eth1'" "Modem device set to eth1"
 check_status "uci set network.rakitan=interface" "Rakitan interface created"
 check_status "uci set network.rakitan.proto='none'" "Rakitan protocol set to none"
 check_status "uci set network.rakitan.device='wwan0'" "Rakitan device set to wwan0"
-check_status "uci -q delete network.wan6" "IPv6 WAN interface removed"
+check_status "uci delete network.wan6" "WAN6 interface removed"
 check_status "uci commit network" "Network configuration committed"
 
 log_status "INFO" "Configuring firewall..."
@@ -123,9 +124,9 @@ check_status "uci commit firewall" "Firewall configuration committed"
 
 # disable ipv6 lan
 log_status "INFO" "Disabling IPv6 on LAN..."
-check_status "uci -q delete dhcp.lan.dhcpv6" "DHCPv6 disabled on LAN"
-check_status "uci -q delete dhcp.lan.ra" "Router Advertisement disabled on LAN"
-check_status "uci -q delete dhcp.lan.ndp" "NDP disabled on LAN"
+check_status "uci delete dhcp.lan.dhcpv6" "DHCPv6 disabled on LAN"
+check_status "uci delete dhcp.lan.ra" "Router Advertisement disabled on LAN"
+check_status "uci delete dhcp.lan.ndp" "NDP disabled on LAN"
 check_status "uci commit dhcp" "DHCP configuration committed"
 
 # configure wireless device
@@ -184,6 +185,7 @@ check_status "sed -i -e '/12d1:15c1/,+5d' -e '/413c:81d7/,+5d' /etc/usb-mode.jso
 
 # disable xmm-modem
 log_status "INFO" "Disabling XMM modem..."
+check_status "uci add xmm-modem xmm-modem" "add xmm-modem"
 check_status "uci set xmm-modem.@xmm-modem[0].enable='0'" "XMM modem disabled"
 check_status "uci commit xmm-modem" "XMM modem configuration committed"
 
@@ -310,11 +312,11 @@ for pkg in luci-app-openclash luci-app-nikki luci-app-passwall; do
                 check_status "ln -sf /etc/openclash/proxy_provider /etc/nikki/run" "Nikki proxy provider symlink created"
                 check_status "ln -sf /etc/openclash/rule_provider /etc/nikki/run" "Nikki rule provider symlink created"
                 check_status "sed -i '64s/Enable/Disable/' /etc/config/alpha" "Alpha config updated for Nikki"
-                check_status "sed -i '170d' /usr/lib/lua/luci/view/themes/argon/header.htm" "Argon header updated for Nikki"
+                check_status "sed -i '170s#.*#<!-- & -->#' /usr/lib/lua/luci/view/themes/argon/header.htm" "Argon header updated for Nikki"
                 ;;
             luci-app-passwall)
                 check_status "sed -i '88s/Enable/Disable/' /etc/config/alpha" "Alpha config updated for Passwall"
-                check_status "sed -i '171d' /usr/lib/lua/luci/view/themes/argon/header.htm" "Argon header updated for Passwall"
+                check_status "sed -i '171s#.*#<!-- & -->#' /usr/lib/lua/luci/view/themes/argon/header.htm" "Argon header updated for Passwall"
                 ;;
         esac
     else
@@ -365,7 +367,8 @@ log_status "SUCCESS" "All setup completed successfully"
 check_status "rm -rf /etc/uci-defaults/$(basename $0)" "Cleanup: removed script from uci-defaults"
 
 log_status "INFO" "========================================="
-log_status "INFO" "XIDZWRT Setup Script Finished"
+log_status "INFO" "XIDZs-WRT Setup Script Finished"
+log_status "INFO" "Silahkan Restart Ulang Perangkat"
 log_status "INFO" "Check log file: $LOG_FILE"
 log_status "INFO" "========================================="
 
